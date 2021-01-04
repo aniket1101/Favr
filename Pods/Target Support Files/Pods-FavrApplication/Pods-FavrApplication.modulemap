@@ -1,0 +1,6 @@
+framework module Pods_FavrApplication {
+  umbrella header "Pods-FavrApplication-umbrella.h"
+
+  export *
+  module * { export * }
+}

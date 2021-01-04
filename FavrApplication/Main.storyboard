@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gNV-PT-8MW">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Chats-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ConversationsViewController" customModule="FavrApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Chats" id="ShA-no-dEt"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-368" y="1434"/>
+        </scene>
+        <!--Me-->
+        <scene sceneID="ftu-8y-GhH">
+            <objects>
+                <viewController title="Me" id="rDe-Tg-3hg" customClass="ProfileViewController" customModule="FavrApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QGC-3c-GwK">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="w44-0V-U3B"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="BD2-6g-u6k"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U6R-AU-Vet" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="399" y="1434"/>
+        </scene>
+        <!--Animated Tab Bar Controller-->
+        <scene sceneID="aBJ-HG-ffm">
+            <objects>
+                <tabBarController id="gNV-PT-8MW" customClass="RAMAnimatedTabBarController" customModule="RAMAnimatedTabBarController" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GQm-Zc-8Jv">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" systemColor="systemBackgroundColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="selectedIndex">
+                                <integer key="value" value="0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="selectedIndex">
+                            <integer key="value" value="0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="oH0-JQ-EV2" kind="relationship" relationship="viewControllers" id="ECg-6j-8vK"/>
+                        <segue destination="51S-1c-f0i" kind="relationship" relationship="viewControllers" id="H9E-C8-Efp"/>
+                        <segue destination="rTZ-nB-pOY" kind="relationship" relationship="viewControllers" id="aI9-Cc-zui"/>
+                        <segue destination="B7d-ZU-HhJ" kind="relationship" relationship="viewControllers" id="Mqr-Ge-h5z"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JeP-jn-MFS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-367" y="-15"/>
+        </scene>
+        <!--Me-->
+        <scene sceneID="0bd-CT-9us">
+            <objects>
+                <navigationController id="B7d-ZU-HhJ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Me" image="person" catalog="system" id="tkv-4A-sDW" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <outlet property="animation" destination="Cu7-8r-nsS" id="PJ7-hq-81K"/>
+                        </connections>
+                    </tabBarItem>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="S3z-NW-nd9">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="rDe-Tg-3hg" kind="relationship" relationship="rootViewController" id="8e8-yu-N0Q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tLP-bm-HLn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="Cu7-8r-nsS" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController"/>
+            </objects>
+            <point key="canvasLocation" x="399" y="757"/>
+        </scene>
+        <!--Chats-->
+        <scene sceneID="fyQ-ae-O5e">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rTZ-nB-pOY" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="0My-to-vaN" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <outlet property="animation" destination="Z3n-TC-MgO" id="Jst-8o-w3Q"/>
+                        </connections>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="lwy-50-u1p">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="qG5-Wu-byg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oFc-7h-o1h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="Z3n-TC-MgO" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController"/>
+            </objects>
+            <point key="canvasLocation" x="-368" y="757"/>
+        </scene>
+        <!--Page Two Onboarding View Controller-->
+        <scene sceneID="QZe-L8-dQT">
+            <objects>
+                <viewController storyboardIdentifier="page2" id="3eK-UE-C7o" customClass="pageTwoOnboardingViewController" customModule="FavrApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="n2l-f0-KYf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="6" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="QqS-S8-mHv">
+                                <rect key="frame" x="42" y="834.5" width="179" height="27.5"/>
+                            </pageControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRd-yX-vah">
+                                <rect key="frame" x="42" y="515.5" width="100" height="57"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="47"/>
+                                <color key="textColor" name="LightAccent"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deeds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tLp-qk-zW3">
+                                <rect key="frame" x="58" y="580" width="144" height="75"/>
+                                <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="75"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ICw-6r-yL1">
+                                <rect key="frame" x="0.0" y="108" width="409" height="435"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingDeeds" translatesAutoresizingMaskIntoConstraints="NO" id="wmB-Au-paW">
+                                        <rect key="frame" x="104.5" y="106" width="200" height="223"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="223" id="IMW-EC-9Hi"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="wmB-Au-paW" firstAttribute="top" secondItem="ICw-6r-yL1" secondAttribute="top" constant="106" id="9fH-R4-Z1z"/>
+                                    <constraint firstItem="wmB-Au-paW" firstAttribute="centerX" secondItem="ICw-6r-yL1" secondAttribute="centerX" id="FUu-Ev-HLE"/>
+                                    <constraint firstItem="wmB-Au-paW" firstAttribute="centerY" secondItem="ICw-6r-yL1" secondAttribute="centerY" id="mrL-kw-7T6"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vjq-T7-iD5">
+                                <rect key="frame" x="42" y="663" width="287.5" height="149.5"/>
+                                <string key="text">Perform Favrs to 
+compete with your friends
+and earn points.
+Log in every day to
+accumlate a streak.</string>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
+                                <color key="textColor" name="FavrLightShade"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="5CM-gR-qdk"/>
+                        <color key="backgroundColor" name="FavrOrange"/>
+                        <constraints>
+                            <constraint firstItem="ICw-6r-yL1" firstAttribute="top" secondItem="5CM-gR-qdk" secondAttribute="top" constant="64" id="3zb-hp-g9S"/>
+                            <constraint firstItem="5CM-gR-qdk" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GRd-yX-vah" secondAttribute="trailing" symbolic="YES" id="6x3-WK-UeU"/>
+                            <constraint firstItem="5CM-gR-qdk" firstAttribute="trailing" secondItem="ICw-6r-yL1" secondAttribute="trailing" constant="5" id="DuA-Q6-LtB"/>
+                            <constraint firstItem="vjq-T7-iD5" firstAttribute="top" secondItem="tLp-qk-zW3" secondAttribute="bottom" constant="8" id="Ksv-8i-MqV"/>
+                            <constraint firstItem="ICw-6r-yL1" firstAttribute="leading" secondItem="5CM-gR-qdk" secondAttribute="leading" id="Mmt-mi-M3g"/>
+                            <constraint firstItem="tLp-qk-zW3" firstAttribute="top" secondItem="ICw-6r-yL1" secondAttribute="bottom" constant="37" id="W2h-8O-rMh"/>
+                            <constraint firstItem="tLp-qk-zW3" firstAttribute="leading" secondItem="5CM-gR-qdk" secondAttribute="leading" constant="58" id="YnO-NK-OfY"/>
+                            <constraint firstItem="5CM-gR-qdk" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vjq-T7-iD5" secondAttribute="trailing" symbolic="YES" id="Zv6-lz-An6"/>
+                            <constraint firstItem="GRd-yX-vah" firstAttribute="leading" secondItem="5CM-gR-qdk" secondAttribute="leading" constant="42" id="c0i-ou-OLr"/>
+                            <constraint firstItem="5CM-gR-qdk" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tLp-qk-zW3" secondAttribute="trailing" symbolic="YES" id="e5K-ml-jaa"/>
+                            <constraint firstItem="QqS-S8-mHv" firstAttribute="leading" secondItem="vjq-T7-iD5" secondAttribute="leading" id="esO-zG-t7w"/>
+                            <constraint firstItem="tLp-qk-zW3" firstAttribute="top" secondItem="GRd-yX-vah" secondAttribute="bottom" constant="7.5" id="fQ5-DE-k2Q"/>
+                            <constraint firstItem="QqS-S8-mHv" firstAttribute="bottom" secondItem="5CM-gR-qdk" secondAttribute="bottom" id="jcG-QW-AB4"/>
+                            <constraint firstItem="GRd-yX-vah" firstAttribute="leading" secondItem="vjq-T7-iD5" secondAttribute="leading" id="yAk-uZ-sZU"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FHx-gR-qcU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3875" y="-269"/>
+        </scene>
+        <!--Page Three Onboarding View Controller-->
+        <scene sceneID="eqr-Vb-Cw8">
+            <objects>
+                <viewController storyboardIdentifier="page4" id="GXf-tl-YMB" customClass="pageThreeOnboardingViewController" customModule="FavrApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rei-ZF-z7i">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="6" currentPage="2" translatesAutoresizingMaskIntoConstraints="NO" id="lNF-Kc-1bQ">
+                                <rect key="frame" x="42" y="834.5" width="179" height="27.5"/>
+                            </pageControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Online" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJV-YX-zfW">
+                                <rect key="frame" x="42" y="517" width="130" height="57"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="47"/>
+                                <color key="textColor" red="1" green="0.35294117650000001" blue="0.52156862749999999" alpha="0.60999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chats" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qot-ae-8AU">
+                                <rect key="frame" x="65" y="581.5" width="130" height="75"/>
+                                <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="75"/>
+                                <color key="textColor" red="1" green="0.3529411764705882" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FfQ-of-dFi">
+                                <rect key="frame" x="0.0" y="108" width="409" height="435"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingChats" translatesAutoresizingMaskIntoConstraints="NO" id="eSz-J3-n4r">
+                                        <rect key="frame" x="104.5" y="106" width="200" height="223"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="223" id="9Jf-mF-84i"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="eSz-J3-n4r" firstAttribute="centerX" secondItem="FfQ-of-dFi" secondAttribute="centerX" id="9XZ-Zk-SSv"/>
+                                    <constraint firstItem="eSz-J3-n4r" firstAttribute="centerY" secondItem="FfQ-of-dFi" secondAttribute="centerY" id="L8F-uf-YXW"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdM-a8-Ku9">
+                                <rect key="frame" x="42" y="684" width="240.5" height="119.5"/>
+                                <string key="text">Talk one-on-one with your friends 
+quickly and easily.
+Real time.</string>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
+                                <color key="textColor" name="FavrLightShade"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QKr-L4-kOA"/>
+                        <color key="backgroundColor" name="FavrPurple"/>
+                        <constraints>
+                            <constraint firstItem="BdM-a8-Ku9" firstAttribute="top" secondItem="Qot-ae-8AU" secondAttribute="bottom" constant="27.5" id="0CM-H9-xn5"/>
+                            <constraint firstItem="FfQ-of-dFi" firstAttribute="top" secondItem="QKr-L4-kOA" secondAttribute="top" constant="64" id="0V3-c0-4x1"/>
+                            <constraint firstItem="QKr-L4-kOA" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Qot-ae-8AU" secondAttribute="trailing" symbolic="YES" id="5ry-UM-7rO"/>
+                            <constraint firstItem="QKr-L4-kOA" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lJV-YX-zfW" secondAttribute="trailing" symbolic="YES" id="5uU-b9-Q0o"/>
+                            <constraint firstItem="lNF-Kc-1bQ" firstAttribute="leading" secondItem="QKr-L4-kOA" secondAttribute="leading" constant="42" id="Hqg-Dc-LSx"/>
+                            <constraint firstItem="Qot-ae-8AU" firstAttribute="leading" secondItem="QKr-L4-kOA" secondAttribute="leading" constant="65" id="MK5-uO-qtg"/>
+                            <constraint firstItem="FfQ-of-dFi" firstAttribute="leading" secondItem="Rei-ZF-z7i" secondAttribute="leading" id="OgC-lN-iV2"/>
+                            <constraint firstItem="lNF-Kc-1bQ" firstAttribute="leading" secondItem="BdM-a8-Ku9" secondAttribute="leading" id="RPW-D4-o7y"/>
+                            <constraint firstItem="QKr-L4-kOA" firstAttribute="trailing" secondItem="FfQ-of-dFi" secondAttribute="trailing" constant="5" id="RSZ-rn-nlN"/>
+                            <constraint firstItem="Qot-ae-8AU" firstAttribute="top" secondItem="lJV-YX-zfW" secondAttribute="bottom" constant="7.5" id="WpN-mk-FiE"/>
+                            <constraint firstItem="lNF-Kc-1bQ" firstAttribute="bottom" secondItem="QKr-L4-kOA" secondAttribute="bottom" id="oxF-RJ-pWI"/>
+                            <constraint firstItem="lNF-Kc-1bQ" firstAttribute="leading" secondItem="lJV-YX-zfW" secondAttribute="leading" id="tbX-mk-Hfa"/>
+                            <constraint firstItem="QKr-L4-kOA" firstAttribute="bottom" secondItem="FfQ-of-dFi" secondAttribute="bottom" constant="319" id="wXC-va-P3U"/>
+                            <constraint firstItem="QKr-L4-kOA" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BdM-a8-Ku9" secondAttribute="trailing" symbolic="YES" id="z1m-hx-pCV"/>
+                            <constraint firstItem="lNF-Kc-1bQ" firstAttribute="top" secondItem="BdM-a8-Ku9" secondAttribute="bottom" constant="31" id="zdp-hK-mAu"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C1c-pV-uPM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2501" y="-269"/>
+        </scene>
+        <!--Page Four Onboarding View Controller-->
+        <scene sceneID="0QM-oL-QLe">
+            <objects>
+                <viewController storyboardIdentifier="page3" id="Mqt-Sw-rWF" customClass="pageFourOnboardingViewController" customModule="FavrApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Hmf-Wb-Jv7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="6" currentPage="3" translatesAutoresizingMaskIntoConstraints="NO" id="3z3-SC-oKi">
+                                <rect key="frame" x="42" y="834.5" width="179" height="27.5"/>
+                                <color key="currentPageIndicatorTintColor" name="FavrBlue"/>
+                            </pageControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deeds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAk-qM-MME">
+                                <rect key="frame" x="58" y="580" width="144" height="75"/>
+                                <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="75"/>
+                                <color key="textColor" red="0.0" green="0.49803921568627452" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFc-gq-hPd">
+                                <rect key="frame" x="42" y="516" width="116" height="56.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="47"/>
+                                <color key="textColor" red="0.20392156862745098" green="0.64313725490196072" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mSj-6P-WDc">
+                                <rect key="frame" x="0.0" y="108" width="409" height="435"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingLogo" translatesAutoresizingMaskIntoConstraints="NO" id="rPw-uE-sf3">
+                                        <rect key="frame" x="104.5" y="106" width="200" height="223"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="223" id="goj-7v-a4h"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="rPw-uE-sf3" firstAttribute="centerX" secondItem="mSj-6P-WDc" secondAttribute="centerX" id="YCh-FT-rLu"/>
+                                    <constraint firstItem="rPw-uE-sf3" firstAttribute="top" secondItem="mSj-6P-WDc" secondAttribute="top" constant="106" id="qTK-RK-UiP"/>
+                                    <constraint firstItem="rPw-uE-sf3" firstAttribute="centerY" secondItem="mSj-6P-WDc" secondAttribute="centerY" id="v47-QY-TSB"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2EC-Tb-Dcd">
+                                <rect key="frame" x="42" y="663" width="287.5" height="149.5"/>
+                                <string key="text">Perform Favrs to 
+compete with your friends
+and earn points.
+Log in every day to
+accumlate a streak.</string>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
+                                <color key="textColor" name="FavrLightShade"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="wMS-KV-tbE"/>
+                        <color key="backgroundColor" name="FavrSecondaryBlue"/>
+                        <constraints>
+                            <constraint firstItem="wMS-KV-tbE" firstAttribute="trailing" secondItem="mSj-6P-WDc" secondAttribute="trailing" constant="5" id="0k6-VI-baX"/>
+                            <constraint firstItem="IFc-gq-hPd" firstAttribute="leading" secondItem="2EC-Tb-Dcd" secondAttribute="leading" id="1e6-3A-NfA"/>
+                            <constraint firstItem="2EC-Tb-Dcd" firstAttribute="top" secondItem="yAk-qM-MME" secondAttribute="bottom" constant="8" id="2Yk-cE-Yye"/>
+                            <constraint firstItem="3z3-SC-oKi" firstAttribute="bottom" secondItem="wMS-KV-tbE" secondAttribute="bottom" id="3Ze-na-cNm"/>
+                            <constraint firstItem="mSj-6P-WDc" firstAttribute="top" secondItem="wMS-KV-tbE" secondAttribute="top" constant="64" id="G7c-CC-7db"/>
+                            <constraint firstItem="yAk-qM-MME" firstAttribute="top" secondItem="mSj-6P-WDc" secondAttribute="bottom" constant="37" id="HkA-DY-Z3c"/>
+                            <constraint firstItem="yAk-qM-MME" firstAttribute="leading" secondItem="wMS-KV-tbE" secondAttribute="leading" constant="58" id="Hup-B2-Vvx"/>
+                            <constraint firstItem="mSj-6P-WDc" firstAttribute="leading" secondItem="wMS-KV-tbE" secondAttribute="leading" id="MKf-Vw-EXU"/>
+                            <constraint firstItem="3z3-SC-oKi" firstAttribute="leading" secondItem="2EC-Tb-Dcd" secondAttribute="leading" id="QAf-VV-rWJ"/>
+                            <constraint firstItem="wMS-KV-tbE" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2EC-Tb-Dcd" secondAttribute="trailing" symbolic="YES" id="btc-fA-Xe0"/>
+                            <constraint firstItem="wMS-KV-tbE" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yAk-qM-MME" secondAttribute="trailing" symbolic="YES" id="hTn-Sm-GKL"/>
+                            <constraint firstItem="yAk-qM-MME" firstAttribute="top" secondItem="IFc-gq-hPd" secondAttribute="bottom" constant="7.5" id="mpK-Nr-YEG"/>
+                            <constraint firstItem="wMS-KV-tbE" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IFc-gq-hPd" secondAttribute="trailing" symbolic="YES" id="ps5-7A-gp7"/>
+                            <constraint firstItem="IFc-gq-hPd" firstAttribute="leading" secondItem="wMS-KV-tbE" secondAttribute="leading" constant="42" id="vOs-H5-SqJ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="56W-ey-gqW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3181" y="-269"/>
+        </scene>
+        <!--Start Page View Controller-->
+        <scene sceneID="bpZ-7Q-zKl">
+            <objects>
+                <viewController storyboardIdentifier="startPage" id="Wc8-Ii-86b" customClass="startPageViewController" customModule="FavrApplication" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8kv-FH-K9Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1039.1304347826087" y="-1217.4107142857142"/>
+        </scene>
+        <!--Favrs-->
+        <scene sceneID="Vnp-Aa-4RV">
+            <objects>
+                <navigationController id="oH0-JQ-EV2" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Favrs" image="heart" catalog="system" id="hUJ-bh-3TP" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <outlet property="animation" destination="g3D-dU-YrZ" id="hM5-1e-bDW"/>
+                        </connections>
+                    </tabBarItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="W57-8o-ouV">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="MfT-U5-1xN" kind="relationship" relationship="rootViewController" id="t4v-dU-iGn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mx4-Uh-Enm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="g3D-dU-YrZ" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController"/>
+            </objects>
+            <point key="canvasLocation" x="-1801" y="757"/>
+        </scene>
+        <!--Rankings-->
+        <scene sceneID="dMm-ta-Rd4">
+            <objects>
+                <navigationController id="51S-1c-f0i" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Rankings" image="rosette" catalog="system" id="YZ3-eX-Yoa" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <outlet property="animation" destination="Uw2-Qb-M9s" id="g8I-TZ-nyW"/>
+                        </connections>
+                    </tabBarItem>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="FtG-ra-JnI">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="tFf-VF-ttl" kind="relationship" relationship="rootViewController" id="WpP-FB-Y7R"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dTB-hy-XdN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="Uw2-Qb-M9s" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController"/>
+            </objects>
+            <point key="canvasLocation" x="-1113" y="757"/>
+        </scene>
+        <!--Favrs-->
+        <scene sceneID="vJW-sx-HlY">
+            <objects>
+                <viewController id="MfT-U5-1xN" customClass="DeedsViewController" customModule="FavrApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hgv-d0-e4z">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="mic-jQ-5zJ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Favrs" id="Wxd-iz-DdG"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M2J-Sg-5Ub" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1801" y="1434"/>
+        </scene>
+        <!--Rankings-->
+        <scene sceneID="mOu-57-cYP">
+            <objects>
+                <viewController id="tFf-VF-ttl" customClass="RankingsViewController" customModule="FavrApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dWL-pe-Dht">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Qf2-uR-Pp8">
+                                <rect key="frame" x="0.0" y="140" width="414" height="673"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <sections/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mk3-HW-NC0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="mk3-HW-NC0" firstAttribute="trailing" secondItem="Qf2-uR-Pp8" secondAttribute="trailing" id="1fb-hQ-YyW"/>
+                            <constraint firstItem="mk3-HW-NC0" firstAttribute="bottom" secondItem="Qf2-uR-Pp8" secondAttribute="bottom" id="AaO-HM-WWS"/>
+                            <constraint firstItem="Qf2-uR-Pp8" firstAttribute="top" secondItem="mk3-HW-NC0" secondAttribute="top" id="hvs-v4-nPc"/>
+                            <constraint firstItem="Qf2-uR-Pp8" firstAttribute="leading" secondItem="mk3-HW-NC0" secondAttribute="leading" id="oTv-fa-pRq"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Rankings" id="a0U-w3-uMq"/>
+                    <connections>
+                        <outlet property="tableView" destination="Qf2-uR-Pp8" id="7Sc-lb-KH1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="m4u-ZL-8Nk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1113" y="1434"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="CKd-b4-HSe">
+            <objects>
+                <viewController storyboardIdentifier="page1" id="gWc-16-3vP" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PFc-pE-k69">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJ6-Yl-kjn">
+                                <rect key="frame" x="42" y="537" width="237" height="57"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="47"/>
+                                <color key="textColor" name="FavrOnboardingOrange"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favr" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vYw-Ka-XpD">
+                                <rect key="frame" x="65" y="601.5" width="103" height="75"/>
+                                <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="75"/>
+                                <color key="textColor" name="FavrOrange"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VpQ-Nj-DBL">
+                                <rect key="frame" x="0.0" y="108" width="409" height="435"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingLogo" translatesAutoresizingMaskIntoConstraints="NO" id="HWN-0n-BU0">
+                                        <rect key="frame" x="104.5" y="106" width="200" height="223"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="223" id="TzX-qF-EMq"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="HWN-0n-BU0" firstAttribute="centerY" secondItem="VpQ-Nj-DBL" secondAttribute="centerY" id="6tK-O9-zES"/>
+                                    <constraint firstItem="HWN-0n-BU0" firstAttribute="centerX" secondItem="VpQ-Nj-DBL" secondAttribute="centerX" id="DQL-rx-drY"/>
+                                    <constraint firstItem="HWN-0n-BU0" firstAttribute="top" secondItem="VpQ-Nj-DBL" secondAttribute="top" constant="106" id="EZc-Pt-ahQ"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start being a better you" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWh-rX-yxI">
+                                <rect key="frame" x="42" y="704" width="258.5" height="72"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="72" id="obt-Nb-D4L"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
+                                <color key="textColor" name="FavrOrange"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="6" translatesAutoresizingMaskIntoConstraints="NO" id="DQJ-2i-Kzu">
+                                <rect key="frame" x="42" y="834.5" width="179" height="27.5"/>
+                                <color key="pageIndicatorTintColor" name="FavrOnboardingOrange"/>
+                                <color key="currentPageIndicatorTintColor" name="FavrDarkOrange"/>
+                            </pageControl>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="DDd-xL-wPI"/>
+                        <color key="backgroundColor" name="LightAccent"/>
+                        <constraints>
+                            <constraint firstItem="DQJ-2i-Kzu" firstAttribute="bottom" secondItem="DDd-xL-wPI" secondAttribute="bottom" id="1K6-YG-cvK"/>
+                            <constraint firstItem="vYw-Ka-XpD" firstAttribute="top" secondItem="RJ6-Yl-kjn" secondAttribute="bottom" constant="7.5" id="84m-St-LBb"/>
+                            <constraint firstItem="vYw-Ka-XpD" firstAttribute="leading" secondItem="DDd-xL-wPI" secondAttribute="leading" constant="65" id="G6u-fs-Wln"/>
+                            <constraint firstItem="XWh-rX-yxI" firstAttribute="top" secondItem="vYw-Ka-XpD" secondAttribute="bottom" constant="27.5" id="GMe-CX-LZ4"/>
+                            <constraint firstItem="VpQ-Nj-DBL" firstAttribute="top" secondItem="DDd-xL-wPI" secondAttribute="top" constant="64" id="QrG-Sp-t3Y"/>
+                            <constraint firstItem="RJ6-Yl-kjn" firstAttribute="leading" secondItem="DDd-xL-wPI" secondAttribute="leading" constant="42" id="SsD-L4-gq4"/>
+                            <constraint firstItem="DDd-xL-wPI" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vYw-Ka-XpD" secondAttribute="trailing" symbolic="YES" id="Yrv-rN-XAI"/>
+                            <constraint firstItem="vYw-Ka-XpD" firstAttribute="top" secondItem="VpQ-Nj-DBL" secondAttribute="bottom" constant="58.5" id="avA-Xz-rbP"/>
+                            <constraint firstItem="DDd-xL-wPI" firstAttribute="trailing" secondItem="VpQ-Nj-DBL" secondAttribute="trailing" constant="5" id="eEO-tg-yWm"/>
+                            <constraint firstItem="XWh-rX-yxI" firstAttribute="leading" secondItem="RJ6-Yl-kjn" secondAttribute="leading" id="fmN-SM-sPG"/>
+                            <constraint firstItem="DDd-xL-wPI" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XWh-rX-yxI" secondAttribute="trailing" symbolic="YES" id="qn2-88-yvE"/>
+                            <constraint firstItem="VpQ-Nj-DBL" firstAttribute="leading" secondItem="DDd-xL-wPI" secondAttribute="leading" id="vtV-N9-7Cr"/>
+                            <constraint firstItem="DDd-xL-wPI" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="RJ6-Yl-kjn" secondAttribute="trailing" symbolic="YES" id="wSa-m6-BsR"/>
+                            <constraint firstItem="XWh-rX-yxI" firstAttribute="leading" secondItem="DQJ-2i-Kzu" secondAttribute="leading" id="wsh-ji-OQL"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jod-h1-MWk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4610" y="-269"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="OnboardingChats" width="200" height="200"/>
+        <image name="OnboardingDeeds" width="200" height="200"/>
+        <image name="OnboardingLogo" width="200" height="200"/>
+        <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="message" catalog="system" width="128" height="113"/>
+        <image name="person" catalog="system" width="128" height="117"/>
+        <image name="rosette" catalog="system" width="106" height="128"/>
+        <namedColor name="FavrBlue">
+            <color red="0.0" green="0.55294117647058827" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="FavrDarkOrange">
+            <color red="0.80000000000000004" green="0.35686274509803922" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="FavrLightShade">
+            <color red="0.9882352941176471" green="0.94901960784313721" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="FavrOnboardingOrange">
+            <color red="1" green="0.55686274509803924" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="FavrOrange">
+            <color red="1" green="0.44705882352941179" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="FavrPurple">
+            <color red="0.33725490196078434" green="0.0" blue="0.42745098039215684" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="FavrSecondaryBlue">
+            <color red="0.50196078431372548" green="0.77647058823529413" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="LightAccent">
+            <color red="0.97647058823529409" green="0.97254901960784312" blue="0.93725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

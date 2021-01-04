@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>728463959754-o9cmhlq8mvi4tu3lm09bt37cmrk0fj45.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.728463959754-o9cmhlq8mvi4tu3lm09bt37cmrk0fj45</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDe3wGDb1zuKhWnUMNQ2SnmGYwFWmAfVuc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>728463959754</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.aniketgupta.FavrApplication</string>
+	<key>PROJECT_ID</key>
+	<string>favr-2380b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>favr-2380b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:728463959754:ios:48fd7264c30ae357d87633</string>
+</dict>
+</plist>
