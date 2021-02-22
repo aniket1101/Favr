@@ -138,8 +138,9 @@ class OnboardingViewController: LiquidSwipeContainerController, LiquidSwipeConta
         let secondPageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "page2")
         let thirdPageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "page3")
         let fourthPageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "page4")
-        let lastVC = DeedsViewController()
-        var controllers: [UIViewController] = [firstPageVC, secondPageVC, thirdPageVC, fourthPageVC, lastVC]
+//        let lastVC = DeedsViewController()
+        var controllers: [UIViewController] = [firstPageVC, secondPageVC, thirdPageVC, fourthPageVC]
+//        lastVC
         return controllers
     }()
     

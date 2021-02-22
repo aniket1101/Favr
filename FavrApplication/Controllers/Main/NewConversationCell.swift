@@ -71,10 +71,10 @@ class NewConversationCell: UITableViewCell {
             let newStatus = snapshot.value as? String
             self.statusLabel.text = newStatus
         })
-        reference.child("Username").observeSingleEvent(of: .value, with: {
+        reference.child("name").observeSingleEvent(of: .value, with: {
             snapshot in
             let newName = snapshot.value as? String
-            self.userNameLabel.text = newName
+            self.userNameLabel.text = "@"+newName!
         })
         let path = "images/\(model.email)_profile_picture.png"
         StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in

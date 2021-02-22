@@ -13,22 +13,8 @@ import SDWebImage
 import SystemConfiguration
 import MessageUI
 
-struct UserInformationCellModel {
-    let title: String
-    let handler: (() -> Void)
-    
-}
-
 class UserInformationViewController: UIViewController, MFMailComposeViewControllerDelegate {
-    
-    private let tableView: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        return table
-    }()
-    
-    private var data = [[UserInformationCellModel]]()
-    
+        
     private var otherUserPhotoURL: URL?
     var safeEmail: String?
     var otherUserEmail: String?
@@ -48,19 +34,104 @@ class UserInformationViewController: UIViewController, MFMailComposeViewControll
         return imageView
     }()
     
-    private let userNameLabel: UILabel = {
-        let userNameLabel = UILabel()
-        userNameLabel.backgroundColor = .systemBackground
-        userNameLabel.textColor = .label
-        userNameLabel.font = .systemFont(ofSize: 22, weight: .semibold)
-        return userNameLabel
+    private let CustomNavigationBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGroupedBackground
+        return view
     }()
     
-    private func doNothing() {
-        
+    private let customHeaderView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGroupedBackground
+        return view
+    }()
+    
+    private let detailButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart.text.square"), for: .normal)
+        button.setBackground(color: .systemGroupedBackground)
+        button.imageView?.tintColor = .label
+        button.addTarget(self, action: #selector(detailButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc private func detailButtonTapped() {
+        print("Detail Button Tapped")
     }
     
-    private func showMailComposer() {
+    private let lastView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        return view
+    }()
+    
+    private let profilePicture: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .systemBackground
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 50
+        return imageView
+    }()
+    
+    private let usernameLabel: UILabel = {
+        let label = UILabel()
+        label.adjustsFontSizeToFitWidth = true
+        label.font = UIFont(name: "Montserrat-Bold", size: 21)
+        label.textColor = .label
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let statusLabel: UILabel = {
+        let label = UILabel()
+        label.adjustsFontSizeToFitWidth = true
+        label.font = UIFont(name: "Montserrat", size: 18)
+        label.textColor = .label
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Montserrat-Bold", size: 14)
+        label.textAlignment = .center
+        label.textColor = .label
+        return label
+    }()
+    
+    private let dismissButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        button.imageView?.tintColor = .label
+        button.addTarget(self, action: #selector(dismissPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    private let streaksLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.adjustsFontSizeToFitWidth = true
+        label.font = UIFont(name: "Montserrat", size: 16)
+        label.textColor = .label
+        label.textAlignment = .left
+        return label
+    }()
+    
+    private let mailButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "envelope.fill"), for: .normal)
+        button.imageView?.tintColor = .label
+        button.addTarget(self, action: #selector(showMailComposer), for: .touchUpInside)
+        return button
+    }()
+        
+    @objc private func dismissPressed() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func showMailComposer() {
         guard MFMailComposeViewController.canSendMail() else {
                 //Show alert informing the user
                 let alert = UIAlertController(title: "Whoops!",
@@ -81,115 +152,121 @@ class UserInformationViewController: UIViewController, MFMailComposeViewControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.reloadData()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGroupedBackground
         scrollView.isScrollEnabled = true
+        
+        // MARK: - Navigation Bar
+        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.prefersLargeTitles = false
         
         navigationController?.navigationBar.isUserInteractionEnabled = false
         
+        titleLabel.text = otherUserName
+                
+        // MARK: - HeaderView
+        
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: otherUserEmail!)
+        
+        let filename = safeEmail + "_profile_picture.png"
+        let path = "images/"+filename
+        
+        let ref = Database.database().reference().child(safeEmail)
+        
+        ref.child("streaks").observeSingleEvent(of: .value, with: { [weak self]
+            snapshot in
+            let newStreaks = String(describing: snapshot.value ?? "🔥")
+            self?.streaksLabel.text = newStreaks + " 🔥"
+        })
+                
+        usernameLabel.text = otherUserUsername
+        statusLabel.text = otherUserStatus
+        
+        
+        
         // Download Other User's Profile Picture
-        let path = "images/\(safeEmail ?? "email")_profile_picture.png"
         StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in
             switch result {
             case .success(let url):
-                self?.otherUserPhotoURL = url
-                DispatchQueue.main.async {
-                    self?.imageView.sd_setImage(with: url, completed: nil)
-                }
+                self?.profilePicture.sd_setImage(with: url, completed: nil)
             case .failure(let error):
-                print("\(error)")
+                print("Failed to get download URL: \(error)")
             }
         })
         
-        configureModels()
-        
+        customHeaderView.addBottomBorder()
+                
         // Subviews
         view.addSubview(scrollView)
-        scrollView.addSubview(imageView)
-        scrollView.addSubview(tableView)
+        view.addSubview(CustomNavigationBar)
+        view.addSubview(customHeaderView)
+        view.addSubview(lastView)
+        CustomNavigationBar.addSubview(titleLabel)
+        CustomNavigationBar.addSubview(dismissButton)
+        customHeaderView.addSubview(usernameLabel)
+        customHeaderView.addSubview(mailButton)
+        customHeaderView.addSubview(statusLabel)
+        customHeaderView.addSubview(profilePicture)
+        customHeaderView.addSubview(detailButton)
+        customHeaderView.addSubview(streaksLabel)
+
         
-        tableView.delegate = self
-        tableView.dataSource = self
+        view.add(gesture: .swipe(.down)) {
+            self.navigationController?.pop()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.isUserInteractionEnabled = false
-        tableView.reloadData()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.reloadData()
-        scrollView.frame = view.bounds
-//        imageView.frame = CGRect(x: 0,
-//                                 y: 0,
-//                                 width: view.width,
-//                                 height: 400)
-        tableView.frame = CGRect(x: 0,
-                                 y: imageView.bottom,
-                                 width: view.width,
-                                 height: 400)
+        CustomNavigationBar.frame = CGRect(x: 0,
+                                           y: 44,
+                                           width: view.width,
+                                           height: 60)
+        titleLabel.frame = CGRect(x: 0,
+                                  y: 20,
+                                  width: CustomNavigationBar.width,
+                                  height: 20)
+        dismissButton.frame = CGRect(x: CustomNavigationBar.width-60,
+                                      y: 5,
+                                      width: 50,
+                                      height: 50)
+        customHeaderView.frame = CGRect(x: 0,
+                                        y: 104,
+                                        width: view.width,
+                                        height: view.height*0.4)
+        profilePicture.frame = CGRect(x: (view.width/2)-50,
+                                      y: 20,
+                                      width: 100,
+                                      height: 100)
+        usernameLabel.frame = CGRect(x: 0,
+                                     y: profilePicture.bottom+10,
+                                     width: view.width,
+                                     height: 34)
+        statusLabel.frame = CGRect(x: 0,
+                                    y: usernameLabel.bottom+5,
+                                   width: view.width,
+                                   height: 30)
+        mailButton.frame = CGRect(x: (view.width/2)-10,
+                                y: statusLabel.bottom+5,
+                                width: 30,
+                                height: 30)
+        detailButton.frame = CGRect(x: mailButton.left-50,
+                                    y: statusLabel.bottom+5,
+                                    width: 30,
+                                    height: 30)
+        streaksLabel.frame = CGRect(x: mailButton.right+20,
+                                   y: statusLabel.bottom+5,
+                                 width: 50,
+                                 height: 30)
+        mailButton.center.x = view.center.x
+        lastView.frame = CGRect(x: 0,
+                                y: customHeaderView.bottom,
+                                width: view.width,
+                                height: view.height-customHeaderView.bottom)
     }
     
-    private func configureModels() {
-        let userNameLabel = "@"+otherUserUsername!+" ("+otherUserName!+")"
-        data.append([
-            UserInformationCellModel(title: userNameLabel) { [weak self] in
-                self?.doNothing()
-            },
-            UserInformationCellModel(title: otherUserStatus ?? "Status not available") { [weak self] in
-                self?.doNothing()
-            }
-        ])
-        data.append([
-            UserInformationCellModel(title: otherUserEmail ?? "User email not available") { [weak self] in
-                self?.showMailComposer()
-            }
-        ])
-    }
-}
-
-extension UserInformationViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return data.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data[section].count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.section][indexPath.row].title
-        cell.accessoryType = .none
-        if cell.textLabel?.text == otherUserName {
-            cell.textLabel?.text = data[indexPath.section][indexPath.row].title
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
-            cell.isUserInteractionEnabled = false
-            cell.textLabel?.textAlignment = .left
-            cell.textLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        }
-        if cell.textLabel?.text == otherUserStatus {
-            cell.textLabel?.text = data[indexPath.section][indexPath.row].title
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
-            cell.isUserInteractionEnabled = false
-            cell.textLabel?.textAlignment = .left
-            cell.textLabel?.font = .systemFont(ofSize: 16, weight: .thin)
-        }
-        if cell.textLabel?.text == otherUserEmail {
-            cell.imageView?.image = UIImage(systemName: "envelope.fill")
-        }
-        return cell
-        
-        
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        // Handle cell selection
-        data[indexPath.section][indexPath.row].handler()
-    }
 }

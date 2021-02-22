@@ -9,9 +9,37 @@
 import UIKit
 import Firebase
 import JGProgressHUD
+import Network
+import SwiftEntryKit
 
 class DeedsViewController: UIViewController {
-        
+    
+    var deedTitle: String?
+    
+    @IBOutlet weak var favrsLabel: UILabel!
+    
+    @IBOutlet weak var rankingsButton: UIButton!
+    
+    @IBOutlet weak var journalsButton: UIButton!
+    
+    @IBOutlet weak var deedsCollectionView: UICollectionView!
+    
+    @IBAction func journalsButtonTapped(_ sender: Any) {
+        let vc = JournalsViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        navigationController?.present(nav, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func rankingsButtonTapped(_ sender: Any) {
+        let vc = RankingsViewController()
+        navigationController?.present(vc, animated: true, completion: nil)
+    }
+    
+    var deeds = Deed.fetchDeeds()
+    
     private let spinner: JGProgressHUD = {
         let spinner = JGProgressHUD(style: .dark)
         spinner.square = true
@@ -33,7 +61,33 @@ class DeedsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
+    private let chatButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "ellipsis.bubble"), for: .normal)
+        button.tintColor = .systemBackground
+        button.clipsToBounds = true
+        button.setBackground(color: .label)
+        button.addTarget(self, action: #selector(chatButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc private func chatButtonTapped() {
+        let vc = ConversationsViewController()
+//        hidesBottomBarWhenPushed = true
+//        navigationController?.isNavigationBarHidden = false
+//        navigationController?.navigationBar.frame.origin = CGPoint(x: 0, y: 20)
+//        navigationController?.push(vc)
+        favrsLabel.heroID = "viewTitleLabel"
+        chatButton.heroID = "viewTitleButton"
+        vc.chatTitleLabel.heroID = "viewTitleLabel"
+        vc.searchButton.heroID = "viewTitleButton"
+        showHero(vc)
+    }
+    
+    let monitor = NWPathMonitor()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,9 +96,95 @@ class DeedsViewController: UIViewController {
             view.addSubview(visualEffectView)
         }
         else {
-            title = "Favrs"
+            title = nil
             tabBarController?.tabBar.isHidden = false
+            navigationController?.navigationBar.isHidden = true
         }
+        deedsCollectionView.contentInsetAdjustmentBehavior = .never
+        
+        
+        // MARK:- Collection View Cell
+        let cellScale: CGFloat = 0.6
+        let screenSize = UIScreen.main.bounds.size
+        let cellWidth = floor(screenSize.width * cellScale)
+        let cellHeight = floor(screenSize.height * cellScale)
+        let insetX = (view.bounds.width - cellWidth) / 2.0
+        let insetY = (view.bounds.height - cellHeight) / 2.0
+        
+        let layout = deedsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        layout?.itemSize = CGSize(width: cellWidth, height: cellHeight)
+        layout?.estimatedItemSize = .zero
+        deedsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        deedsCollectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
+        
+        // Subviews
+        
+        view.addSubview(chatButton)
+        
+        // Check internet connectivity
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                print("Connected")
+                
+            }
+            else {
+                print("Disconnected")
+                func setUpDisconnectedAttributes() -> EKAttributes {
+                    var attributes = EKAttributes.topNote
+                    attributes.displayDuration = 5
+                    attributes.entryBackground = .gradient(
+                        gradient: .init(
+                            colors: [Colour.Orange.a1, Colour.Orange.a2, Colour.Orange.a3, Colour.Orange.a4, Colour.Orange.a5, Colour.Orange.a6], startPoint: .zero, endPoint: CGPoint(x: 1, y: 1)))
+                    attributes.scroll = .edgeCrossingDisabled(swipeable: true)
+                    attributes.displayMode = .inferred
+                    attributes.statusBar = .currentStatusBar
+                    attributes.entryInteraction = .absorbTouches
+                    attributes.precedence.priority = .max
+                    return attributes
+                }
+                
+                DispatchQueue.main.async {
+                    SwiftEntryKit.display(entry: DisconnectedView(), using: setUpDisconnectedAttributes())
+                }
+            }
+        }
+
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+        
+        // Miscellaneous
+        
+        deedsCollectionView.dataSource = self
+        deedsCollectionView.delegate = self
+        
+        favrsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18).isActive = true
+        
+        print("Today:", Date.now())
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.deedsCollectionView.collectionViewLayout.invalidateLayout()
+        chatButton.frame = CGRect(x: view.width-90,
+                                  y: favrsLabel.top,
+                                  width: 50,
+                                  height: 50)
+        chatButton.layer.cornerRadius = chatButton.frame.size.width / 2
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        spinner.dismiss()
+        validateAuth()
+        validateVerification()
+        
+//        DispatchQueue.main.async {
+//                    self.navigationController?.navigationBar.setNeedsLayout()
+//                }
+        
+        // MARK: Onboarding
         
         let person = Auth.auth().currentUser
         
@@ -53,6 +193,7 @@ class DeedsViewController: UIViewController {
             reference.child("onboardingComplete").observeSingleEvent(of: .value, with: {
                 snapshot in
                 let onboardingStatus = snapshot.value as? String
+                print(onboardingStatus ?? "failed")
                 
                 if onboardingStatus == "false" {
                     self.view.addSubview(self.popUpAlert)
@@ -72,20 +213,12 @@ class DeedsViewController: UIViewController {
                     }
                 }
             })
-        
+        enableHero()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if Auth.auth().currentUser == nil {
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        spinner.dismiss()
-        validateAuth()
-        validateVerification()
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        disableHero()
     }
     
     private func validateVerification() {
@@ -175,4 +308,52 @@ extension DeedsViewController: userVerificationPopUpDelegate {
         }
     }
 
+}
+
+extension DeedsViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return deeds.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = DeedsFirstViewController()
+        vc.deedTitle = deeds[indexPath.row].title
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeedsCollectionViewCell", for: indexPath) as! DeedsCollectionViewCell
+        let deed = deeds[indexPath.item]
+        
+        cell.deed = deed
+        
+        return cell
+    }
+}
+
+extension DeedsViewController: UICollectionViewDelegate, UIScrollViewDelegate {
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        let layout = self.deedsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        let cellWidthWithSpace = layout.itemSize.width + layout.minimumLineSpacing
+        
+        var offset = targetContentOffset.pointee
+        let index = (offset.x + scrollView.contentInset.left) / cellWidthWithSpace
+        let roundedIndex = round(index)
+        
+        offset = CGPoint(x: roundedIndex * cellWidthWithSpace - scrollView.contentInset.left, y: scrollView.contentInset.top)
+        
+        targetContentOffset.pointee = offset
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
 }

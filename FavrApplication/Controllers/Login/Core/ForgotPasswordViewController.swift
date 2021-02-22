@@ -45,6 +45,7 @@ up with a new one in no time.
     
     private let emailField: UITextField = {
         let field = UITextField()
+        field.keyboardType = .emailAddress
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .continue

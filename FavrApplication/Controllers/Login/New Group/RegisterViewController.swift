@@ -77,6 +77,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     private let emailField: UITextField = {
         let field = UITextField()
         field.autocapitalizationType = .none
+        field.keyboardType = .emailAddress
         field.textContentType = .emailAddress
         field.autocorrectionType = .no
         field.returnKeyType = .continue
@@ -343,6 +344,11 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                 })
                 
                 // Choosing where to move
+                self?.imageView.image = nil
+                self?.firstNameField.text = nil
+                self?.lastNameField.text = nil
+                self?.emailField.text = nil
+                self?.passwordField.text = nil
                 let vc = UserVerificationViewController()
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
@@ -357,6 +363,10 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     switch person.isEmailVerified {
                     case true:
                         print("User is verified: \(person)")
+                        let vc = DeedsViewController()
+                        let nav = UINavigationController(rootViewController: vc)
+                        nav.modalPresentationStyle = .fullScreen
+                        self?.present(nav, animated: true, completion: nil)
                     case false:
                         
                         person.sendEmailVerification { (error) in

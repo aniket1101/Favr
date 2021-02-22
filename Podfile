@@ -34,6 +34,9 @@ pod 'Hue'
 pod 'MaterialComponents/ActionSheet'
 pod 'SwiftEntryKit'
 pod "Pastel"
+pod 'Hero'
+pod 'ShimmerSwift'
+pod 'TransitionButton'
 
 end  
 

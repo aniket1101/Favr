@@ -62,13 +62,39 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
+    private let qrButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "qrcode"), for: .normal)
+        button.setBackground(color: .systemGroupedBackground)
+        button.imageView?.tintColor = .label
+        button.addTarget(self, action: #selector(QRCodeTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private let detailButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart.text.square"), for: .normal)
+        button.setBackground(color: .systemGroupedBackground)
+        button.imageView?.tintColor = .label
+        button.addTarget(self, action: #selector(detailButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc private func QRCodeTapped() {
+        print("QR Code Tapped")
+    }
+    
+    @objc private func detailButtonTapped() {
+        print("Detail Button Tapped")
+    }
+    
     private let statusLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.adjustsFontSizeToFitWidth = true
         label.font = UIFont(name: "Montserrat", size: 18)
         label.textColor = .label
         label.textAlignment = .center
+        label.numberOfLines = 1
         return label
     }()
     
@@ -95,7 +121,7 @@ final class ProfileViewController: UIViewController {
     
     private let settingsButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "gear"), for: .normal)
+        button.setImage(UIImage(systemName: "line.horizontal.3.circle"), for: .normal)
         button.imageView?.tintColor = .label
         button.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
         return button
@@ -113,7 +139,6 @@ final class ProfileViewController: UIViewController {
     }
         
     @objc private func settingsPressed() {
-        
         let actionSheet = MaterialComponents.MDCActionSheetController()
         actionSheet.backgroundColor = .systemGroupedBackground
         actionSheet.actionFont = UIFont(name: "Montserrat", size: 18)
@@ -129,9 +154,24 @@ final class ProfileViewController: UIViewController {
         let actionThree = MDCActionSheetAction(title: "About", image: UIImage(named: "greyAbout")) {_ in
             self.navigationController?.pushViewController(AboutViewController(), animated: true)
         }
+        let actionFour = MDCActionSheetAction(title: "Moderator", image: UIImage(systemName: "star.square.fill")) { [weak self] _ in
+            let vc = moderatorControlViewController()
+            self?.navigationController?.push(vc)
+        }
         actionSheet.addAction(actionOne)
         actionSheet.addAction(actionTwo)
         actionSheet.addAction(actionThree)
+        let person = Auth.auth().currentUser
+        let moderatorRef = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: person?.email ?? "email"))
+        
+        moderatorRef.child("onboardingComplete").observeSingleEvent(of: .value, with: {
+            snapshot in
+            let moderatorStatus = snapshot.value as? String
+            
+            if moderatorStatus == "true" {
+                actionSheet.addAction(actionFour)
+            }
+        })
 
         present(actionSheet, animated: true, completion: nil)
     }
@@ -141,6 +181,9 @@ final class ProfileViewController: UIViewController {
         
         view.backgroundColor = .systemGroupedBackground
         customHeaderView.addSubview(editProfileButton)
+        traitCollection.performAsCurrent {
+            editProfileButton.layer.borderColor = UIColor.label.cgColor
+        }
         
         // MARK: - Navigation Bar
         
@@ -167,19 +210,18 @@ final class ProfileViewController: UIViewController {
 
         let ref = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: email))
 
-        ref.child("Name").observeSingleEvent(of: .value, with: { [weak self]
+        ref.child("name").observeSingleEvent(of: .value, with: { [weak self]
             snapshot in
             let username = snapshot.value as? String
-            self?.usernameLabel.text = username
+            self?.usernameLabel.text = "@"+username!
         })
 
         customHeaderView.addSubview(usernameLabel)
 
         ref.child("streaks").observeSingleEvent(of: .value, with: { [weak self]
             snapshot in
-//            let newStreaks = snapshot.value as? String
-//            self?.streaksLabel.text = newStreaks! + " 🔥"
-            self?.streaksLabel.text = "#" + " 🔥"
+            let newStreaks = String(describing: snapshot.value ?? "🔥")
+            self?.streaksLabel.text = newStreaks + " 🔥"
         })
 
         customHeaderView.addSubview(streaksLabel)
@@ -201,6 +243,8 @@ final class ProfileViewController: UIViewController {
         })
         
         customHeaderView.addBottomBorder()
+        customHeaderView.addSubview(qrButton)
+        customHeaderView.addSubview(detailButton)
                 
         view.addSubview(customHeaderView)
         
@@ -221,6 +265,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+//        let size = view.width / 6
         CustomNavigationBar.frame = CGRect(x: 0,
                                            y: 44,
                                            width: view.width,
@@ -249,9 +294,18 @@ final class ProfileViewController: UIViewController {
                                     y: usernameLabel.bottom+5,
                                    width: view.width,
                                    height: 30)
-        streaksLabel.frame = CGRect(x: 0,
+        qrButton.frame = CGRect(x: (view.width/2)-10,
+                                y: statusLabel.bottom+5,
+                                width: 30,
+                                height: 30)
+        qrButton.center.x = view.center.x
+        detailButton.frame = CGRect(x: qrButton.left-50,
+                                    y: statusLabel.bottom+5,
+                                    width: 30,
+                                    height: 30)
+        streaksLabel.frame = CGRect(x: qrButton.right+20,
                                    y: statusLabel.bottom+5,
-                                 width: view.width,
+                                 width: 50,
                                  height: 30)
         editProfileButton.frame = CGRect(x: (view.width/2)-60,
                                          y: streaksLabel.bottom+15,

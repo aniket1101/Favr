@@ -38,7 +38,7 @@ class UserVerificationViewController: UIViewController {
         label.text =
         """
         A verification email has been sent to:
-        \(Auth.auth().currentUser?.email ?? "your email")
+        \(Auth.auth().currentUser?.email ?? "Your email")
         """
         label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 4
@@ -92,7 +92,7 @@ class UserVerificationViewController: UIViewController {
     
     @objc private func didTapResendVerification() {
         Auth.auth().currentUser?.sendEmailVerification { (error) in
-            
+                        
             guard let error = error else {
                 let actionSheet = UIAlertController(title: "Email sent", message: "You'll receive an email with verification details soon!", preferredStyle: .alert)
                 actionSheet.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
@@ -107,6 +107,7 @@ class UserVerificationViewController: UIViewController {
     
     @objc private func confirmButtonPressed() {
         Auth.auth().currentUser?.reload(completion: nil)
+        Thread.sleep(forTimeInterval: 1)
         if Auth.auth().currentUser!.isEmailVerified {
             dismiss(animated: true, completion: nil)
         }
@@ -124,6 +125,10 @@ class UserVerificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "FavrOrange")
+        
+        Auth.auth().currentUser?.reload(completion: nil)
+        
+        
         
         startAnimation()
         
@@ -146,6 +151,11 @@ class UserVerificationViewController: UIViewController {
         animationView.animation = Animation.named("emailAnimation")
         animationView.play()
         animationView.loopMode = .loop
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Auth.auth().currentUser?.reload(completion: nil)
     }
     
     override func viewDidLayoutSubviews() {

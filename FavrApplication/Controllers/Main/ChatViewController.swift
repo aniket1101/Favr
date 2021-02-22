@@ -14,6 +14,9 @@ import AVFoundation
 import AVKit
 import CoreLocation
 import NotificationCenter
+import Firebase
+import SwiftDate
+import SparkUI
 
 final class ChatViewController: MessagesViewController {
     
@@ -28,8 +31,19 @@ final class ChatViewController: MessagesViewController {
         return formatter
     }()
     
+    private let randomLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+
+    
     public let otherUserEmail: String
+    public var otherUserNotSafeEmail: String
+    public var otherUserUsername: String
+    public var otherUserName: String
+    public var otherUserStatus: String
     private var conversationId: String?
+    public let lastMessageDate: String?
     public var isNewConversation = false
     
     private var messages = [Message]()
@@ -38,6 +52,27 @@ final class ChatViewController: MessagesViewController {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else {
             return nil
         }
+        let reference = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: otherUserEmail))
+        reference.child("Status").observeSingleEvent(of: .value, with: {
+            snapshot in
+            let otherUserStatus = snapshot.value as? String
+            self.otherUserStatus = otherUserStatus ?? ""
+        })
+        reference.child("Display Name").observeSingleEvent(of: .value, with: {
+            snapshot in
+            let otherUserName = snapshot.value as? String
+            self.otherUserName = otherUserName ?? ""
+        })
+        reference.child("name").observeSingleEvent(of: .value, with: {
+            snapshot in
+            let otherUserUsername = snapshot.value as? String
+            self.otherUserUsername = "@"+otherUserUsername!
+        })
+        reference.child("email").observeSingleEvent(of: .value, with: {
+            snapshot in
+            let email = snapshot.value as? String
+            self.otherUserNotSafeEmail = email ?? ""
+        })
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
         
         return Sender(photoURL: "",
@@ -48,6 +83,11 @@ final class ChatViewController: MessagesViewController {
     init(with email: String, id: String?) {
         self.conversationId = id
         self.otherUserEmail = email
+        self.otherUserStatus = ""
+        self.otherUserUsername = ""
+        self.otherUserName = ""
+        self.otherUserNotSafeEmail = ""
+        self.lastMessageDate = ""
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,16 +95,47 @@ final class ChatViewController: MessagesViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc private func didTapProfile() {
+        let vc = UserInformationViewController()
+        vc.safeEmail = DatabaseManager.safeEmail(emailAddress: otherUserEmail)
+        vc.otherUserEmail = otherUserNotSafeEmail
+        vc.otherUserName = otherUserName
+        vc.otherUserStatus = otherUserStatus
+        vc.otherUserUsername = otherUserUsername
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .systemBackground
+        
+        navigationController?.navigationBar.isHidden = false
+        
+        navigationController?.navigationBar.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
+        gesture.numberOfTapsRequired = 1
+        gesture.numberOfTouchesRequired = 1
+        navigationController?.navigationBar.addGestureRecognizer(gesture)
+        
         
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
+        messageInputBar.inputTextView.placeholder = "Say something..."
         setUpInputButton()
+        
+        view.add(gesture: .swipe(.right)) {
+            self.navigationController?.pop()
+        }
+    }
+        
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     private func setUpInputButton() {
@@ -200,8 +271,6 @@ final class ChatViewController: MessagesViewController {
         present(actionSheet, animated: true)
     }
     
-    
-    
     private func listenForMessages(id: String, shouldScrollToBottom: Bool) {
         DatabaseManager.shared.getAllMessagesForConversation(with: id, completion: { [weak self] result in
             switch result {
@@ -228,6 +297,7 @@ final class ChatViewController: MessagesViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         messageInputBar.inputTextView.becomeFirstResponder()
         if let conversationId = conversationId {
             listenForMessages(id: conversationId, shouldScrollToBottom: true)
@@ -348,14 +418,20 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
     
+//    func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+//        let currentText: String = inputBar.inputTextView.text
+//
+//    }
+    
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         guard !text.replacingOccurrences(of: " ", with: "").isEmpty,
             let selfSender = self.selfSender,
             let messageId = createMessageId() else {
                 return
         }
-        
         print("Sending: \(text)")
+        
+        
         
         let message = Message(sender: selfSender,
                               messageId: messageId,
@@ -365,7 +441,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         // Send Message
         if isNewConversation {
             // Create conversation in database
-            DatabaseManager.shared.createNewConversation(with: otherUserEmail, name: self.title ?? "User", firstMessage: message, completion: { [weak self] success in
+            DatabaseManager.shared.createNewConversation(with: otherUserEmail, name: self.title ?? "Check", firstMessage: message, completion: { [weak self] success in
                 if success {
                     print("Message sent")
                     self?.isNewConversation = false
@@ -396,7 +472,6 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         }
     }
 
-    
     private func createMessageId() -> String? {
         // Date, otherUserEmail, senderEmail, randomInt
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else {
@@ -488,26 +563,23 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     
     // Date header credit to @chiahsien - https://github.com/chiahsien
     
-    func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "hh:mm a"
-        return NSAttributedString(string: formatter.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-
-    }
-
-    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 16
-    }
+//    func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "hh:mm a"
+//        return NSAttributedString(string: formatter.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+//
+//    }
+//
+//    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+//        return 16
+//    }
     
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        if indexPath.section % 1 == 0 {
             return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-        }
-        return nil
     }
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 12
+        return 18
     }
     
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -518,28 +590,26 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 0
     }
-
     
-//    func messageHeaderView(for indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageReusableView {
-//        messagesCollectionView.register(HeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
-//        let header = messagesCollectionView.dequeueReusableHeaderView(HeaderReusableView.self, for: indexPath)
-//        let formatter1 = DateFormatter()
-//        formatter1.dateStyle = .short
-//        formatter1.dateFormat = "dd/MM/yyyy, hh:mm"
-//        if true{
-//            let message = messageForItem(at: indexPath, in: messagesCollectionView)
-//            header.setup(with: formatter1.string(from: message.sentDate))
-//        }
-//        return header
-//    }
-//
-//    func headerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
-//        if true {
-//            return CGSize(width: messagesCollectionView.bounds.width, height: HeaderReusableView.height)
-//        } else {
-//            return .zero
-//        }
-//    }
+    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return UIColor.label
+    }
+    
+    func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+        let corner: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
+        let borderColor:UIColor = isFromCurrentSender(message: message) ? .secondarySystemBackground: .secondarySystemFill
+        return .bubbleTailOutline(borderColor, corner, .curved)
+    }
+    
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        let sender = message.sender
+        if sender.senderId == selfSender?.senderId {
+            return .secondarySystemBackground
+        }
+        else {
+            return .systemBackground
+        }
+    }
     
     func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         guard let message = message as? Message else {
@@ -613,7 +683,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
                     }
                 })
             }
-             
+            
         }
     }
 }
@@ -665,3 +735,8 @@ extension ChatViewController: MessageCellDelegate {
     }
 }
 
+extension Date {
+    func isInSameDayOf(date: Date) -> Bool {
+        return Calendar.current.isDate(self, inSameDayAs:date)
+    }
+}

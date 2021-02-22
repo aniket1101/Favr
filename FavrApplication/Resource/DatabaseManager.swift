@@ -68,7 +68,16 @@ extension DatabaseManager {
     }
     
     /// Inserts new user to database
+    
+    
     public func insertUser(with user: ChatAppUser, completion: @escaping (Bool) -> Void) {
+        
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            return
+//        }
+        
+//        database.child("users").child(uid).setValue(<#T##value: Any?##Any?#>)
+
         database.child(user.safeEmail).setValue([
             "first_name": user.firstName,
             "last_name": user.lastName,
@@ -78,10 +87,17 @@ extension DatabaseManager {
             "points": 0,
             "streaks": 0,
             "totalDeeds": 0,
-            "lastDeed": "N/A",
+            "lastDeed": Date.past(),
             "email": user.emailAddress,
             "onboardingComplete": "false",
+            "moderator": "false",
             "conversations": [
+            
+            ],
+            "completedDeeds": [
+            
+            ],
+            "journals": [
             
             ]
         ], withCompletionBlock: { [weak self] error, _ in
@@ -392,7 +408,6 @@ extension DatabaseManager {
             
             completion(.success(conversations))
         })
-        
         
     }
     

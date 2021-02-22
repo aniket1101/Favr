@@ -46,6 +46,11 @@ class ConversationTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .systemFill
+        layer.cornerRadius = contentView.frame.size.height/2
+        clipsToBounds = true
+        
+        // Subviews
         contentView.addSubview(userImageView)
         contentView.addSubview(userNameLabel)
         contentView.addSubview(userMessageLabel)
@@ -71,7 +76,7 @@ class ConversationTableViewCell: UITableViewCell {
                                         y: userNameLabel.bottom + 5,
                                         width: contentView.width - 25 - userImageView.width,
                                         height: 20)
-        userDateLabel.frame = CGRect(x: contentView.right-60,
+        userDateLabel.frame = CGRect(x: contentView.right-70,
                                      y: contentView.top+5,
                                      width: contentView.width - 30 - userImageView.width,
                                      height: 20)

@@ -14,6 +14,7 @@
 
 #import "MDCSheetContainerView.h"
 
+#import "MDCSheetState.h"
 #import "MDCDraggableView.h"
 #import "MDCDraggableViewDelegate.h"
 #import "MDCSheetBehavior.h"
@@ -42,6 +43,7 @@ static const CGFloat kSheetBounceBuffer = 150;
 @property(nonatomic) BOOL isDragging;
 @property(nonatomic) CGFloat originalPreferredSheetHeight;
 @property(nonatomic) CGRect previousAnimatedBounds;
+@property(nonatomic) BOOL simulateScrollViewBounce;
 
 @end
 
@@ -57,9 +59,12 @@ static const CGFloat kSheetBounceBuffer = 150;
 
 - (instancetype)initWithFrame:(CGRect)frame
                   contentView:(UIView *)contentView
-                   scrollView:(UIScrollView *)scrollView {
+                   scrollView:(UIScrollView *)scrollView
+     simulateScrollViewBounce:(BOOL)simulateScrollViewBounce {
   self = [super initWithFrame:frame];
   if (self) {
+    _willBeDismissed = NO;
+    _simulateScrollViewBounce = simulateScrollViewBounce;
     if (UIAccessibilityIsVoiceOverRunning()) {
       _sheetState = MDCSheetStateExtended;
     } else {
@@ -68,6 +73,7 @@ static const CGFloat kSheetBounceBuffer = 150;
 
     // Don't set the frame yet because we're going to change the anchor point.
     _sheet = [[MDCDraggableView alloc] initWithFrame:CGRectZero scrollView:scrollView];
+    _sheet.simulateScrollViewBounce = _simulateScrollViewBounce;
     _sheet.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     _sheet.delegate = self;
     _sheet.backgroundColor = contentView.backgroundColor;
@@ -143,7 +149,8 @@ static const CGFloat kSheetBounceBuffer = 150;
   [super didMoveToWindow];
   if (self.window) {
     if (!self.sheetBehavior) {
-      self.sheetBehavior = [[MDCSheetBehavior alloc] initWithItem:self.sheet];
+      self.sheetBehavior = [[MDCSheetBehavior alloc] initWithItem:self.sheet
+                                         simulateScrollViewBounce:self.simulateScrollViewBounce];
     }
     [self animatePaneWithInitialVelocity:CGPointZero];
   } else {
@@ -170,12 +177,13 @@ static const CGFloat kSheetBounceBuffer = 150;
   if (@available(iOS 11.0, *)) {
     [super safeAreaInsetsDidChange];
 
-    _preferredSheetHeight = self.originalPreferredSheetHeight + self.safeAreaInsets.bottom;
+    if (self.adjustHeightForSafeAreaInsets) {
+      _preferredSheetHeight = self.originalPreferredSheetHeight + self.safeAreaInsets.bottom;
 
-    UIEdgeInsets contentInset = self.sheet.scrollView.contentInset;
-    contentInset.bottom = MAX(contentInset.bottom, self.safeAreaInsets.bottom);
-    self.sheet.scrollView.contentInset = contentInset;
-
+      UIEdgeInsets contentInset = self.sheet.scrollView.contentInset;
+      contentInset.bottom = MAX(contentInset.bottom, self.safeAreaInsets.bottom);
+      self.sheet.scrollView.contentInset = contentInset;
+    }
     CGRect scrollViewFrame = CGRectStandardize(self.sheet.scrollView.frame);
     scrollViewFrame.size = CGSizeMake(scrollViewFrame.size.width, CGRectGetHeight(self.frame));
     self.sheet.scrollView.frame = scrollViewFrame;
@@ -217,12 +225,12 @@ static const CGFloat kSheetBounceBuffer = 150;
   }
 }
 
-- (void)setPreferredSheetHeight:(CGFloat)preferredSheetHeight {
-  self.originalPreferredSheetHeight = preferredSheetHeight;
-
+- (void)updateSheetHeight {
   CGFloat adjustedPreferredSheetHeight = self.originalPreferredSheetHeight;
   if (@available(iOS 11.0, *)) {
-    adjustedPreferredSheetHeight += self.safeAreaInsets.bottom;
+    if (self.adjustHeightForSafeAreaInsets) {
+      adjustedPreferredSheetHeight += self.safeAreaInsets.bottom;
+    }
   }
 
   if (_preferredSheetHeight == adjustedPreferredSheetHeight) {
@@ -236,6 +244,16 @@ static const CGFloat kSheetBounceBuffer = 150;
   if (self.window) {
     [self animatePaneWithInitialVelocity:CGPointZero];
   }
+}
+
+- (void)setPreferredSheetHeight:(CGFloat)preferredSheetHeight {
+  self.originalPreferredSheetHeight = preferredSheetHeight;
+  [self updateSheetHeight];
+}
+
+- (void)setAdjustHeightForSafeAreaInsets:(BOOL)adjustHeightForSafeAreaInsets {
+  _adjustHeightForSafeAreaInsets = adjustHeightForSafeAreaInsets;
+  [self updateSheetHeight];
 }
 
 // Slides the sheet position downwards, so the right amount peeks above the bottom of the superview.
@@ -358,7 +376,12 @@ static const CGFloat kSheetBounceBuffer = 150;
 
 - (void)keyboardStateChangedWithNotification:(__unused NSNotification *)notification {
   if (self.window) {
-    [self animatePaneWithInitialVelocity:CGPointZero];
+    // Only add animation if the view is not set to be dismissed with the new keyboard. Otherwise,
+    // the view will first adjust height to fit above the keyboard and then dismiss, which appears
+    // glitchy on the screen.
+    if (!self.willBeDismissed) {
+      [self animatePaneWithInitialVelocity:CGPointZero];
+    }
   }
 }
 
@@ -401,15 +424,15 @@ static const CGFloat kSheetBounceBuffer = 150;
   MDCSheetState targetState;
   if (self.preferredSheetHeight == [self maximumSheetHeight]) {
     // Cannot be extended, only closed.
-    targetState = ((velocity.y >= 0 && self.dismissOnDraggingDownSheet) ? MDCSheetStateClosed
-                                                                        : MDCSheetStatePreferred);
+    targetState = ((velocity.y > 0 && self.dismissOnDraggingDownSheet) ? MDCSheetStateClosed
+                                                                       : MDCSheetStatePreferred);
   } else {
     CGFloat currentSheetHeight = CGRectGetMaxY(self.bounds) - CGRectGetMinY(self.sheet.frame);
     if (currentSheetHeight >= self.preferredSheetHeight) {
-      targetState = (velocity.y >= 0 ? MDCSheetStatePreferred : MDCSheetStateExtended);
+      targetState = (velocity.y > 0 ? MDCSheetStatePreferred : MDCSheetStateExtended);
     } else {
-      targetState = ((velocity.y >= 0 && self.dismissOnDraggingDownSheet) ? MDCSheetStateClosed
-                                                                          : MDCSheetStatePreferred);
+      targetState = ((velocity.y > 0 && self.dismissOnDraggingDownSheet) ? MDCSheetStateClosed
+                                                                         : MDCSheetStatePreferred);
     }
   }
   self.isDragging = NO;

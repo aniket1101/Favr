@@ -49,6 +49,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     private let emailField: UITextField = {
         let field = UITextField()
         field.autocapitalizationType = .none
+        field.keyboardType = .emailAddress
         field.autocorrectionType = .no
         field.returnKeyType = .continue
         field.borderStyle = .none

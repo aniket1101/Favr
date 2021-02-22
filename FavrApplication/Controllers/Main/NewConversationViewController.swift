@@ -40,6 +40,7 @@ final class NewConversationViewController: UIViewController {
         let table = UITableView()
         table.isHidden = true
         table.backgroundColor = .systemBackground
+        table.separatorStyle = .none
         table.register(NewConversationCell.self,
                        forCellReuseIdentifier: NewConversationCell.identifier)
         return table
@@ -172,12 +173,11 @@ extension NewConversationViewController: UISearchBarDelegate {
             return email.hasPrefix(term.lowercased())
         }).compactMap({
             
-            guard let email = $0["email"],
-                let name = $0["name"] else {
+            guard let email = $0["email"] else {
                 return nil
             }
             
-            return SearchResult(name: name, email: email)
+            return SearchResult(email: email)
         })
         
         self.results = results

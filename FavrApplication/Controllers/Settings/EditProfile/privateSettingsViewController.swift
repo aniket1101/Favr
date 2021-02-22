@@ -49,10 +49,10 @@ class privateSettingsViewController: UIViewController {
     
     private func configureModels() {
         data.append([
-            privateSettingsCellModel(title: "Email") { [weak self] in
-                let vc = ChangeEmailViewController()
-                self?.navigationController?.pushViewController(vc, animated: true)
-            },
+//            privateSettingsCellModel(title: "Email") { [weak self] in
+//                let vc = ChangeEmailViewController()
+//                self?.navigationController?.pushViewController(vc, animated: true)
+//            },
             privateSettingsCellModel(title: "Change Password") { [weak self] in
                 let vc = currentPasswordViewController()
                 self?.navigationController?.pushViewController(vc, animated: true)

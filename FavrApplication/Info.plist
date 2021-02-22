@@ -105,5 +105,9 @@
 		<string>Montserrat-Bold.ttf</string>
 		<string>Montserrat-ExtraBold.ttf</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
 </dict>
 </plist>

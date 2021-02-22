@@ -52,6 +52,7 @@ class ChangeEmailViewController: UIViewController {
     private let newEmailField: UITextField = {
         let field = UITextField()
         field.autocapitalizationType = .none
+        field.keyboardType = .emailAddress
         field.autocorrectionType = .no
         field.returnKeyType = .continue
         field.borderStyle = .none
