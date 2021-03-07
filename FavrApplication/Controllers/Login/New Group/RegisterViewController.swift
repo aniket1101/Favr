@@ -98,7 +98,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .done
-        field.textContentType = .password
+        field.textContentType = .newPassword
         field.borderStyle = .none
         field.setPadding()
         field.setBottomBorder()
@@ -222,6 +222,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         let gesture = UITapGestureRecognizer(target: self ,
                                              action: #selector(didTapChangeProfilePicture))
         imageView.addGestureRecognizer(gesture)
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     @objc private func didTapChangeProfilePicture() {
@@ -274,17 +276,18 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         lastNameField.resignFirstResponder()
         
         guard let firstName = firstNameField.text,
-            let lastName = lastNameField.text,
-            let email = emailField.text,
-            let password = passwordField.text,
-            !email.isEmpty,
-            !password.isEmpty,
-            !firstName.isEmpty,
-            !lastName.isEmpty,
-            password.count >= 8 else {
+              let lastName = lastNameField.text,
+              let email = emailField.text,
+              let password = passwordField.text,
+              !email.isEmpty,
+              !password.isEmpty,
+              !firstName.isEmpty,
+              !lastName.isEmpty,
+              password.count >= 8
+              else {
                 alertUserLoginError()
                 return
-        }
+              }
         
         spinner.show(in: view)
         
@@ -396,7 +399,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func alertUserLoginError(message: String = "Please enter all information to create a new account.") {
+    func alertUserLoginError(message: String = "Please enter all information to create a new account. Make sure that your password is at least 8 characters long.") {
         let alert = UIAlertController(title: "Whoops!",
                                       message: message,
                                       preferredStyle: .alert)

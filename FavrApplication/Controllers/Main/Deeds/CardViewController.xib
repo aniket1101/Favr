@@ -10,7 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeedsCardViewController" customModule="FavrApplication" customModuleProvider="target">
             <connections>
-                <outlet property="handleArea" destination="AvO-bh-UmT" id="SSY-sW-Ajj"/>
+                <outlet property="handleArea" destination="AvO-bh-UmT" id="ygm-5s-r0m"/>
+                <outlet property="handleBarView" destination="NvG-u1-qQb" id="Sd9-dj-yAd"/>
                 <outlet property="view" destination="qAR-Sx-SNB" id="pjF-PT-Lmg"/>
             </connections>
         </placeholder>

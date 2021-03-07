@@ -175,7 +175,12 @@ class DeedsFirstViewController: UIViewController {
         pointRef.observe(.value, with: { [weak self]
             snapshot in
             let value = String(describing: snapshot.value ?? 0)
+            if value == "1" {
+                self?.cardViewController.pointLabel.text = "\(value) point"
+            }
+            else {
             self?.cardViewController.pointLabel.text = "\(value) points"
+            }
         })
     }
     

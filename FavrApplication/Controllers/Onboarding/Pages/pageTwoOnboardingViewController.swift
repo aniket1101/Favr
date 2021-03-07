@@ -59,7 +59,7 @@ class pageTwoOnboardingViewController: UIViewController {
 //    @objc private func skipButtonTapped() {
 //        let person = Auth.auth().currentUser
 //        let safeEmail = DatabaseManager.safeEmail(emailAddress: (person?.email)!)
-//        let ref = Database.database().reference().child(safeEmail)
+//        let ref = Database.database().reference().child("Users").child(safeEmail)
 //        guard let key = ref.child("onboardingComplete").key else { return }
 //
 //        let childUpdates = ["\(key)": "true",
@@ -81,7 +81,7 @@ class pageTwoOnboardingViewController: UIViewController {
     @IBAction func skipPressed(_ sender: UIButton) {
         let person = Auth.auth().currentUser
         let safeEmail = DatabaseManager.safeEmail(emailAddress: (person?.email)!)
-        let ref = Database.database().reference().child(safeEmail)
+        let ref = Database.database().reference().child("Users").child(safeEmail)
         guard let key = ref.child("onboardingComplete").key else { return }
         
         let childUpdates = ["\(key)": "true",

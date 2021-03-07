@@ -10,10 +10,12 @@ import Firebase
 import Hero
 import NotificationCenter
 import ShimmerSwift
+import MarqueeLabel
 
 class DeedsCardViewController: UIViewController {
         
     private let buttonConstant: CGFloat = 70
+    private let handleAreaConstant: CGFloat = 20
     
     private let labelShimmerView: ShimmeringView = {
         let view = ShimmeringView()
@@ -22,13 +24,13 @@ class DeedsCardViewController: UIViewController {
         return view
     }()
     
-    let deedLabel: UILabel = {
-        let label = UILabel()
-//        label.backgroundColor = UIColor(named: "FavrOrange")
-//        label.textColor = UIColor(named: "Accent")
+    let deedLabel: MarqueeLabel = {
+        let label = MarqueeLabel()
         label.textColor = .label
-        label.textAlignment = .center
-        label.numberOfLines = -1
+        label.textAlignment = .left
+        label.type = .rightLeft
+        label.animationCurve = .easeInOut
+        label.speed = .duration(1.5)
         label.font = UIFont(name: "Montserrat-ExtraBold", size: 16)
         return label
     }()
@@ -88,58 +90,67 @@ class DeedsCardViewController: UIViewController {
     }
     
     @IBOutlet weak var handleArea: UIView!
+    @IBOutlet var handleBarView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        labelShimmerView.contentView = deedLabel
+        labelShimmerView.contentView = pointLabel
         labelShimmerView.isShimmering = true
                 
         self.deedLabel.heroID = "deedLabel"
         self.favrButton.heroID = "favrButton"
         self.deedDescriptionLabel.heroID = "descriptionLabel"
 
-        view.addSubview(deedLabel)
+        handleArea.addSubview(deedLabel)
         view.addSubview(deedDescriptionLabel)
-        view.addSubview(favrButton)
+        handleArea.addSubview(favrButton)
         view.addSubview(deedCompletedButton)
         view.addSubview(pointLabel)
         
+//        deedLabel.rightAnchor.constraint(equalTo: favrButton.leftAnchor).isActive = true
+        deedLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         deedLabel.fadeIn()
+        pointLabel.fadeIn()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let size = view.width/3
-        deedLabel.frame = CGRect(x: view.width-(size-buttonConstant)-20,
-                                  y: 20,
-                                  width: (2*size)+10,
-                                  height: 25)
         labelShimmerView.frame = CGRect(x: 100,
                                         y: 100,
                                         width: (2*size)+10,
-                                        height: 65)
-//        deedLabel.frame = CGRect(x: 20,
-//                                  y: 20,
-//                                  width: (2*size)+10,
-//                                  height: 25)
+                                        height: 20)
+                deedLabel.frame = CGRect(x: 20,
+                                          y: 20,
+                                          width: (2*size)+10,
+                                          height: 25)
         favrButton.frame = CGRect(x: view.width-(size-buttonConstant)-20,
-                                  y: 5,
-                                  width: size-buttonConstant,
-                                  height: size-buttonConstant)
+                                  y: 25,
+                                  width: handleArea.bottom-10,
+                                  height: handleArea.bottom-10)
         favrButton.layer.cornerRadius = favrButton.frame.size.width/2
+        deedLabel.center.y = favrButton.center.y
         pointLabel.frame = CGRect(x: 20,
-                                  y: handleArea.bottom+5,
+                                  y: deedLabel.bottom+5,
                                   width: view.width-40,
                                   height: 20)
-        deedDescriptionLabel.frame = CGRect(x: 10,
+        deedDescriptionLabel.frame = CGRect(x: 20,
                                             y: pointLabel.bottom+15,
-                                            width: view.width-20,
+                                            width: view.width-40,
                                             height: 80)
         deedCompletedButton.frame = CGRect(x: (2*size)-10,
-                                          y: deedDescriptionLabel.bottom+5,
-                                          width: 100,
-                                          height: 25)
+                                           y: deedDescriptionLabel.bottom+5,
+                                           width: 100,
+                                           height: 25)
+        
     }
     
 }

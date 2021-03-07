@@ -120,6 +120,8 @@ up with a new one in no time.
         scrollView.addSubview(secondForgotPasswordLabel)
         scrollView.addSubview(emailField)
         scrollView.addSubview(sendButton)
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     func startAnimation() {

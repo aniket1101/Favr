@@ -11,41 +11,84 @@ import Firebase
 import JGProgressHUD
 import Network
 import SwiftEntryKit
+import Lottie
 
-class DeedsViewController: UIViewController {
+class DeedsViewController: UIViewController, UICollectionViewDelegate {
     
     var deedTitle: String?
     
-    @IBOutlet weak var favrsLabel: UILabel!
+    private var favrCollectionView: UICollectionView?
     
-    @IBOutlet weak var rankingsButton: UIButton!
+    private let progressBar: UIProgressView = {
+        let progressBar = UIProgressView(progressViewStyle: .bar)
+        progressBar.trackTintColor = .gray
+        progressBar.progressTintColor = UIColor(named: "FavrOrange")
+        progressBar.progress = 0
+        return progressBar
+    }()
+        
+    private let rankingsButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Rankings", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        button.addTarget(self, action: #selector(rankingsButtonTapped), for: .touchUpInside)
+        return button
+    }()
     
-    @IBOutlet weak var journalsButton: UIButton!
+    private let journalsButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Journal", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        button.addTarget(self, action: #selector(journalsButtonTapped), for: .touchUpInside)
+        return button
+    }()
     
-    @IBOutlet weak var deedsCollectionView: UICollectionView!
+    private let singleView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .separator
+        return view
+    }()
     
-    @IBAction func journalsButtonTapped(_ sender: Any) {
+    private let favrsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Favrs"
+        label.font = UIFont(name: "Montserrat-ExtraBold", size: 35)
+        label.textColor = .label
+        label.textAlignment = .center
+        label.isUserInteractionEnabled = true
+        label.isOpaque = false
+        return label
+    }()
+    
+    private var favrs = [Favr]()
+    
+    /// Presents the Rankings View
+    @objc private func rankingsButtonTapped() {
+        let vc = RankingsViewController()
+        navigationController?.present(vc, animated: true, completion: nil)
+    }
+    
+    /// Presents the Journals View
+    @objc private func journalsButtonTapped() {
         let vc = JournalsViewController()
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
         nav.navigationBar.isHidden = true
         navigationController?.present(nav, animated: true, completion: nil)
     }
+        
+//    var deeds = Deed.fetchDeeds()
     
-    
-    @IBAction func rankingsButtonTapped(_ sender: Any) {
-        let vc = RankingsViewController()
-        navigationController?.present(vc, animated: true, completion: nil)
-    }
-    
-    var deeds = Deed.fetchDeeds()
-    
-    private let spinner: JGProgressHUD = {
-        let spinner = JGProgressHUD(style: .dark)
-        spinner.square = true
-        spinner.cornerRadius = 12
-        return spinner
-    }()
+//    private let spinner: JGProgressHUD = {
+//        let spinner = JGProgressHUD(style: .dark)
+//        spinner.square = true
+//        spinner.cornerRadius = 12
+//        return spinner
+//    }()
     
     lazy var popUpAlert: CustomPopUpAlert = {
         let view = CustomPopUpAlert()
@@ -62,28 +105,85 @@ class DeedsViewController: UIViewController {
         return view
     }()
     
-    private let chatButton: UIButton = {
+    private let searchButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "ellipsis.bubble"), for: .normal)
-        button.tintColor = .systemBackground
+        button.setImage(UIImage(systemName: "magnifyingglass.circle"), for: .normal)
+        button.tintColor = .systemGroupedBackground
         button.clipsToBounds = true
         button.setBackground(color: .label)
-        button.addTarget(self, action: #selector(chatButtonTapped), for: .touchUpInside)
+        button.imageView?.tintColor = .systemGroupedBackground
+        button.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
         return button
     }()
     
-    @objc private func chatButtonTapped() {
-        let vc = ConversationsViewController()
+    /// Searches for the entered query and pushes the user's profile
+    @objc private func didTapSearchButton() {
+        let vc = searchUsersViewController()
+        vc.completion = { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            let vcpush = UserInformationViewController()
+            vcpush.otherUserEmail = result.email
+            vcpush.navigationItem.largeTitleDisplayMode = .never
+            vcpush.dismissButton.isHidden = true
+            vcpush.backButton.isHidden = false
+            vcpush.navigationItem.backButtonDisplayMode = .minimal
+            strongSelf.navigationController?.push(vcpush, animated: true)
+        }
+            
+        let navVC = UINavigationController(rootViewController: vc)
+        present(navVC, animated: true)
+    }
+    
+//    private let chatButton: UIButton = {
+//        let button = UIButton()
+//        button.setImage(UIImage(systemName: "ellipsis.bubble"), for: .normal)
+//        button.tintColor = .systemBackground
+//        button.clipsToBounds = true
+//        button.setBackground(color: .label)
+//        button.addTarget(self, action: #selector(chatButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
+//
+//    @objc private func chatButtonTapped() {
+//        let vc = ConversationsViewController()
 //        hidesBottomBarWhenPushed = true
 //        navigationController?.isNavigationBarHidden = false
 //        navigationController?.navigationBar.frame.origin = CGPoint(x: 0, y: 20)
-//        navigationController?.push(vc)
-        favrsLabel.heroID = "viewTitleLabel"
-        chatButton.heroID = "viewTitleButton"
-        vc.chatTitleLabel.heroID = "viewTitleLabel"
-        vc.searchButton.heroID = "viewTitleButton"
-        showHero(vc)
+//        favrsLabel.heroID = "viewTitleLabel"
+//        chatButton.heroID = "viewTitleButton"
+//        vc.chatTitleLabel.heroID = "viewTitleLabel"
+//        vc.chatTitleLabel.isOpaque = false
+//        vc.searchButton.heroID = "viewTitleButton"
+//        showHero(vc)
+//    }
+    
+    private let animationView: AnimationView = {
+        let view = AnimationView()
+        view.isHidden = true
+        return view
+    }()
+    
+    func startAnimation() {
+        animationView.animation = Animation.named("44656-error")
+        animationView.play()
+        animationView.loopMode = .loop
     }
+    
+    private let noFavrsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No Favrs"
+        label.textAlignment = .center
+        label.textColor = .gray
+        label.font = .systemFont(ofSize: 21, weight: .medium)
+        label.isHidden = true
+        return label
+    }()
+    
+//        private let loadingAlert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+    
+//        private let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
     
     let monitor = NWPathMonitor()
     
@@ -91,35 +191,76 @@ class DeedsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if Auth.auth().currentUser == nil {
-            print("No user")
-            view.addSubview(visualEffectView)
+        view.backgroundColor = .systemGroupedBackground
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+        
+        title = nil
+        tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.setHidden()
+        navigationController?.navigationBar.isHidden = true
+        
+        let favrLayout = UICollectionViewFlowLayout()
+        favrLayout.scrollDirection = .horizontal
+        favrLayout.item(width: view.width*0.6,
+                        height: view.height*0.6)
+        favrLayout.estimatedItemSize = .zero
+        favrLayout.minimumInteritemSpacing = 30
+        favrLayout.minimumLineSpacing = 30
+        favrCollectionView = UICollectionView(frame: .zero, collectionViewLayout: favrLayout)
+        guard let favrCollectionView = favrCollectionView else {
+            return
         }
-        else {
-            title = nil
-            tabBarController?.tabBar.isHidden = false
-            navigationController?.navigationBar.isHidden = true
-        }
-        deedsCollectionView.contentInsetAdjustmentBehavior = .never
+        favrCollectionView.registerCell(favrsCollectionViewCell.self, forCellWithReuseIdentifier: favrsCollectionViewCell.identifier)
+        favrCollectionView.clipsToBounds = true
+        let insetX = (view.width - (view.width*0.6))/2.0
+        let insetY = (view.height - (view.height*0.6))/2.0
+        favrCollectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
+        favrCollectionView.contentInsetAdjustmentBehavior = .never
+        favrCollectionView.showsHorizontalScrollIndicator = false
+        favrCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        favrCollectionView.dataSource = self
+        favrCollectionView.delegate = self
+        favrCollectionView.backgroundColor = .systemGroupedBackground
+        favrCollectionView.alpha = 0
+        favrCollectionView.semanticContentAttribute = .forceRightToLeft
+//        favrCollectionView.autoresizesSubviews = false
+        view.addSubview(favrCollectionView)
         
-        
-        // MARK:- Collection View Cell
-        let cellScale: CGFloat = 0.6
-        let screenSize = UIScreen.main.bounds.size
-        let cellWidth = floor(screenSize.width * cellScale)
-        let cellHeight = floor(screenSize.height * cellScale)
-        let insetX = (view.bounds.width - cellWidth) / 2.0
-        let insetY = (view.bounds.height - cellHeight) / 2.0
-        
-        let layout = deedsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        layout?.itemSize = CGSize(width: cellWidth, height: cellHeight)
-        layout?.estimatedItemSize = .zero
-        deedsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        deedsCollectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
+        favrCollectionView.frame = view.bounds
         
         // Subviews
         
-        view.addSubview(chatButton)
+        view.addSubview(favrsLabel)
+        view.addSubview(searchButton)
+        view.addSubview(singleView)
+        view.addSubview(progressBar)
+//        view.addSubview(chatButton)
+        view.addSubview(rankingsButton)
+        view.addSubview(noFavrsLabel)
+        view.addSubview(animationView)
+        view.addSubview(journalsButton)
+        
+        // Constraints
+        
+        rankingsButton.translatesAutoresizingMaskIntoConstraints = false
+        journalsButton.translatesAutoresizingMaskIntoConstraints = false
+        [
+            rankingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            rankingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            rankingsButton.heightAnchor.constraint(equalToConstant: 30),
+            journalsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            journalsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            journalsButton.heightAnchor.constraint(equalToConstant: 30),
+            favrCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            favrCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            favrCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            favrCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            favrCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ].forEach{ $0.isActive = true}
         
         // Check internet connectivity
         
@@ -155,45 +296,108 @@ class DeedsViewController: UIViewController {
         
         // Miscellaneous
         
-        deedsCollectionView.dataSource = self
-        deedsCollectionView.delegate = self
+        startListeningForFavrs()
+        favrCollectionView.reloadData()
         
-        favrsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18).isActive = true
+        // Favr Label Reload
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(favrsReload))
+        favrsLabel.addGestureRecognizer(gesture)
+    }
+    
+    @objc private func favrsReload() {
+        progressBar.alpha = 1
+        startListeningForFavrs()
+        favrCollectionView?.reloadData()
+    }
+    
+    private func startListeningForFavrs() {
         
-        print("Today:", Date.now())
+        print("starting favrs download...")
+        self.progressBar.setProgress(0.3, animated: true)
+        
+//        loadingIndicator.hidesWhenStopped = true
+//        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+//        loadingIndicator.startAnimating()
+        
+//        loadingAlert.view.addSubview(loadingIndicator)
+//        present(loadingAlert, animated: true, completion: nil)
+
+        
+        DatabaseManager.shared.getAllFavrs(completion: { [weak self] result in
+            self?.progressBar.setProgress(0.7, animated: true)
+            switch result {
+            case .success(let favrs):
+                print("successfully got favrs")
+                self?.progressBar.setProgress(1.0, animated: true)
+                self?.progressBar.fadeOut()
+//                DispatchQueue.main.async {
+//                    self?.loadingAlert.dismiss(animated: false, completion: nil)
+//                    self?.loadingIndicator.stopAnimating()
+//                }
+                self?.favrCollectionView?.fadeIn()
+
+                guard !favrs.isEmpty else {
+                    self?.progressBar.setProgress(1.0, animated: true)
+                    self?.favrCollectionView?.isHidden = true
+                    self?.noFavrsLabel.isHidden = false
+                    return
+                }
+                self?.noFavrsLabel.isHidden = true
+                self?.favrCollectionView?.isHidden = false
+                self?.favrs = favrs
+
+                DispatchQueue.main.async {
+                    self?.favrCollectionView?.reloadData()
+                }
+            case.failure(let error):
+                self?.progressBar.setProgress(0, animated: true)
+                self?.noFavrsLabel.isHidden = false
+                let alert = UIAlertController(title: "Oops", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                self?.present(alert, animated: true)
+                // Network error image/animation
+                self?.startAnimation()
+                self?.animationView.isHidden = false
+                print("failed to get favrs: \(error)")
+            }
+        })
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.deedsCollectionView.collectionViewLayout.invalidateLayout()
-        chatButton.frame = CGRect(x: view.width-90,
-                                  y: favrsLabel.top,
+        
+        singleView.frame = CGRect(x: 10,
+                                  y: searchButton.bottom+10,
+                                  width: view.width-20,
+                                  height: 1)
+        progressBar.frame = singleView.frame
+        favrsLabel.frame = CGRect(x: 10,
+                                  y: view.safeAreaInsets.top+18,
+                                  width: favrsLabel.intrinsicContentSize.width,
+                                  height: 40)
+        searchButton.frame = CGRect(x: view.width-90,
+                                  y: 120,
                                   width: 50,
                                   height: 50)
-        chatButton.layer.cornerRadius = chatButton.frame.size.width / 2
-        
+        searchButton.layer.cornerRadius = searchButton.frame.size.width / 2
+        searchButton.center.y = favrsLabel.center.y
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        spinner.dismiss()
-        validateAuth()
+//        spinner.dismiss()
+        navigationController?.setNavigationBarHidden(true, animated: false)
         validateVerification()
-        
-//        DispatchQueue.main.async {
-//                    self.navigationController?.navigationBar.setNeedsLayout()
-//                }
         
         // MARK: Onboarding
         
         let person = Auth.auth().currentUser
         
-        let reference = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: person?.email ?? "email"))
+        let reference = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: person?.email ?? "email"))
             
             reference.child("onboardingComplete").observeSingleEvent(of: .value, with: {
                 snapshot in
                 let onboardingStatus = snapshot.value as? String
-                print(onboardingStatus ?? "failed")
                 
                 if onboardingStatus == "false" {
                     self.view.addSubview(self.popUpAlert)
@@ -229,15 +433,6 @@ class DeedsViewController: UIViewController {
             nav.modalPresentationStyle = .fullScreen
             present (nav, animated: true)
 
-        }
-    }
-    
-    private func validateAuth() {
-        if FirebaseAuth.Auth.auth().currentUser == nil {
-            let vc = startPageViewController()
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
-            present (nav, animated: false)
         }
     }
 }
@@ -278,7 +473,7 @@ extension DeedsViewController: userVerificationPopUpDelegate {
             print("Dismissal: Did remove pop up window")
             let person = Auth.auth().currentUser
             let safeEmail = DatabaseManager.safeEmail(emailAddress: (person?.email)!)
-            let ref = Database.database().reference().child(safeEmail)
+            let ref = Database.database().reference().child("Users").child(safeEmail)
             guard let key = ref.child("onboardingComplete").key else { return }
             
             let childUpdates = ["\(key)": "true",
@@ -294,11 +489,11 @@ extension DeedsViewController: userVerificationPopUpDelegate {
         }) { (_) in
             let vc = OnboardingViewController()
             let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
+            nav.modalPresentationStyle = .pageSheet
             self.present (nav, animated: true)
             let person = Auth.auth().currentUser
             let safeEmail = DatabaseManager.safeEmail(emailAddress: (person?.email)!)
-            let ref = Database.database().reference().child(safeEmail)
+            let ref = Database.database().reference().child("Users").child(safeEmail)
             guard let key = ref.child("onboardingComplete").key else { return }
             
             let childUpdates = ["\(key)": "true",
@@ -312,48 +507,37 @@ extension DeedsViewController: userVerificationPopUpDelegate {
 
 extension DeedsViewController: UICollectionViewDataSource {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return deeds.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DeedsFirstViewController()
-        vc.deedTitle = deeds[indexPath.row].title
-        self.navigationController?.pushViewController(vc, animated: true)
+        return favrs.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeedsCollectionViewCell", for: indexPath) as! DeedsCollectionViewCell
-        let deed = deeds[indexPath.item]
-        
-        cell.deed = deed
-        
+        let model = favrs[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: favrsCollectionViewCell.identifier, for: indexPath) as! favrsCollectionViewCell
+        cell.configure(with: model)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = DeedsFirstViewController()
+        vc.deedTitle = favrs[indexPath.row].title
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension DeedsViewController: UICollectionViewDelegate, UIScrollViewDelegate {
+extension DeedsViewController: UIScrollViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        let layout = self.deedsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+
+        let layout = self.favrCollectionView?.collectionViewLayout as! UICollectionViewFlowLayout
         let cellWidthWithSpace = layout.itemSize.width + layout.minimumLineSpacing
-        
+
         var offset = targetContentOffset.pointee
         let index = (offset.x + scrollView.contentInset.left) / cellWidthWithSpace
         let roundedIndex = round(index)
-        
+
         offset = CGPoint(x: roundedIndex * cellWidthWithSpace - scrollView.contentInset.left, y: scrollView.contentInset.top)
-        
+
         targetContentOffset.pointee = offset
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

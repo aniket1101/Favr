@@ -15,6 +15,13 @@ struct Conversation {
     let latestMessage: LatestMessage
 }
 
+//struct Conversation {
+//    let id: String
+//    let name: String
+//    let otherUserUid: String
+//    let latestMessage: LatestMessage
+//}
+
 struct LatestMessage {
     let date: String
     let isRead: Bool

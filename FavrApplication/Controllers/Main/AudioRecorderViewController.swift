@@ -25,7 +25,7 @@ class AudioRecorderViewController: UIViewController, AVAudioRecorderDelegate {
             try recordingSession.setCategory(.playAndRecord, mode: .default)
             try recordingSession.setActive(true)
             recordingSession.requestRecordPermission() { [unowned self] allowed in
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { 
                     if allowed {
                         self.loadRecordingUI()
                     } else {

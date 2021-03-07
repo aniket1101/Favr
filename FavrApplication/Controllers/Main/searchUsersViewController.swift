@@ -10,7 +10,7 @@ import UIKit
 import JGProgressHUD
 import Firebase
 
-final class NewConversationViewController: UIViewController {
+final class searchUsersViewController: UIViewController {
     
     public var completion: ((SearchResult) -> (Void))?
     
@@ -31,8 +31,9 @@ final class NewConversationViewController: UIViewController {
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.autocapitalizationType = .none
-        searchBar.placeholder = "Search for Email..."
+        searchBar.placeholder = "Search for Email"
         searchBar.backgroundColor = .systemBackground
+        searchBar.keyboardType = .emailAddress
         return searchBar
     }()
     
@@ -89,7 +90,7 @@ final class NewConversationViewController: UIViewController {
     
 }
 
-extension NewConversationViewController: UITableViewDelegate, UITableViewDataSource {
+extension searchUsersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return results.count
     }
@@ -118,7 +119,7 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
     }
 }
 
-extension NewConversationViewController: UISearchBarDelegate {
+extension searchUsersViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text, !text.replacingOccurrences(of: " ", with: "").isEmpty else {
@@ -132,6 +133,14 @@ extension NewConversationViewController: UISearchBarDelegate {
         
         searchUsers(query: text)
         
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text, !text.replacingOccurrences(of: " ", with: "").isEmpty else {
+            return
+        }
+        results.removeAll()
+        searchUsers(query: text)
     }
     
     func searchUsers(query: String) {
@@ -161,12 +170,12 @@ extension NewConversationViewController: UISearchBarDelegate {
             return
         }
         
-        let safeEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
+//        let safeEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
         
         spinner.dismiss()
         
         let results: [SearchResult] = users.filter({
-            guard let email = $0["email"], email != safeEmail else {
+            guard let email = $0["email"], email != currentUserEmail else {
                 return false
             }
 

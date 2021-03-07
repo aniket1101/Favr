@@ -9,6 +9,7 @@
 import UIKit
 import Hue
 import Pastel
+import Firebase
 
 class startPageViewController: UIViewController {
     
@@ -60,9 +61,20 @@ class startPageViewController: UIViewController {
         vc.title = ""
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func logoutUser() {
+        // call from any screen
+        
+        do { try Auth.auth().signOut() }
+        catch { print("already logged out") }
+        
+        navigationController?.popToRootViewController(animated: true)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        logoutUser()
         
         let pastelView = PastelView(frame: view.bounds)
 
@@ -85,8 +97,9 @@ class startPageViewController: UIViewController {
             pastelView.startAnimation()
             view.insertSubview(pastelView, at: 0)
         
-        navigationItem.backButtonTitle = "Home"
-        navigationController?.navigationBar.tintColor = .clear
+        navigationItem.backButtonTitle = ""
+        navigationItem.backBarButtonItem?.tintColor = .label
+//        navigationController?.navigationBar.tintColor = .clear
         navigationController?.navigationBar.isHidden = true
 
         view.addSubview(favrLabel)

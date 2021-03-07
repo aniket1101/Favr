@@ -132,7 +132,16 @@ class ColoredController: UIViewController {
     }
 }
 
-class OnboardingViewController: LiquidSwipeContainerController, LiquidSwipeContainerDataSource {
+class OnboardingViewController: LiquidSwipeContainerController, LiquidSwipeContainerDataSource, LiquidSwipeContainerDelegate {
+    func liquidSwipeContainer(_ liquidSwipeContainer: LiquidSwipeContainerController, willTransitionTo: UIViewController) {
+
+    }
+
+    func liquidSwipeContainer(_ liquidSwipeContainer: LiquidSwipeContainerController, didFinishTransitionTo: UIViewController, transitionCompleted: Bool) {
+
+    }
+
+
     var viewControllers: [UIViewController] = {
         let firstPageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "page1")
         let secondPageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "page2")
@@ -143,7 +152,7 @@ class OnboardingViewController: LiquidSwipeContainerController, LiquidSwipeConta
 //        lastVC
         return controllers
     }()
-    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()

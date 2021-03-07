@@ -15,8 +15,6 @@ class DeedsCollectionViewCell: UICollectionViewCell {
     
     
     // MY CODE
-    
-        
 
     var deed: Deed! {
         didSet {

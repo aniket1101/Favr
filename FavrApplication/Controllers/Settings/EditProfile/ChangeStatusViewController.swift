@@ -47,7 +47,7 @@ class ChangeStatusViewController: UIViewController, UITextViewDelegate {
     @objc private func changeButtonTapped() {
 
             let safeEmail = DatabaseManager.safeEmail(emailAddress: (Auth.auth().currentUser?.email)!)
-            let ref = Database.database().reference().child(safeEmail)
+        let ref = Database.database().reference().child("Users").child(safeEmail)
             guard let key = ref.child("Status").key else { return }
             
             let childUpdates = ["\(key)": newStatusField.text,

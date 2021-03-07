@@ -22,6 +22,7 @@ class UserVerificationViewController: UIViewController {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "UserVerification")
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -29,7 +30,7 @@ class UserVerificationViewController: UIViewController {
        let label = UILabel()
         label.text = "Verify your email"
         label.textColor = UIColor(named: "LightAccent")
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = UIFont(name: "Montserrat-ExtraBold", size: 18)
         return label
     }()
     
@@ -42,8 +43,8 @@ class UserVerificationViewController: UIViewController {
         """
         label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 4
-        label.textColor = UIColor(named: "Accent")
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = UIColor(named: "LightAccent")
+        label.font = UIFont(name: "Montserrat-Bold", size: 16)
         return label
     }()
     
@@ -75,7 +76,7 @@ class UserVerificationViewController: UIViewController {
         label.textColor = UIColor(named: "FavrLightShade")
         label.textAlignment = .center
         label.numberOfLines = 2
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = UIFont(name: "Montserrat-Regular", size: 14)
         return label
     }()
     
@@ -109,6 +110,7 @@ class UserVerificationViewController: UIViewController {
         Auth.auth().currentUser?.reload(completion: nil)
         Thread.sleep(forTimeInterval: 1)
         if Auth.auth().currentUser!.isEmailVerified {
+            notVerifiedLabel.text = "Email Verified"
             dismiss(animated: true, completion: nil)
         }
         else {
@@ -161,36 +163,48 @@ class UserVerificationViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
-        let size = scrollView.width/1.75
+        let size = scrollView.width/2
+        let size2 = scrollView.width/2.5
+
         
         imageView.frame = CGRect(x: (scrollView.width-size)/2,
-                                 y: 70,
+                                 y: 50,
                                  width: size,
                                  height: size)
+        imageView.center.x = view.center.x
         verifyEmailLabel.frame = CGRect(x: 20,
-                                        y: imageView.bottom+40,
+                                        y: imageView.bottom+20,
                                         width: scrollView.width,
                                         height: 22)
+
         emailMessageLabel.frame = CGRect(x: 20,
-                                         y: verifyEmailLabel.bottom+20,
+                                         y: verifyEmailLabel.bottom+10,
                                          width: scrollView.width,
                                          height: 40)
+
         animationView.frame = CGRect(x: 20,
                                      y: emailMessageLabel.bottom+10,
-                                     width: scrollView.width-40,
-                                     height: 180)
+                                     width: size2,
+                                     height: size2)
+        animationView.center.x = view.center.x
+
         resendVerificationButton.frame = CGRect(x: 20,
-                                                y: emailMessageLabel.bottom+200,
+                                                y: animationView.bottom+10,
                                                 width: scrollView.width-40,
                                                 height: 40)
+        resendVerificationButton.center.x = view.center.x
         confirmButton.frame = CGRect(x: 40,
                                      y: resendVerificationButton.bottom+10,
                                      width: scrollView.width-80,
                                      height: 52)
+        confirmButton.center.x = view.center.x
+
         notVerifiedLabel.frame = CGRect(x: 40,
                                         y: confirmButton.bottom+20,
                                         width: scrollView.width-80,
                                         height: 20)
+        notVerifiedLabel.center.x = view.center.x
+
     }
 
 }

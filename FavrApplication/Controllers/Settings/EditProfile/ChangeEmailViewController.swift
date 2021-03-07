@@ -108,6 +108,8 @@ class ChangeEmailViewController: UIViewController {
         scrollView.addSubview(newEmailField)
         scrollView.addSubview(changeEmailMessageLabel)
 //        scrollView.addSubview(updateButton)
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     

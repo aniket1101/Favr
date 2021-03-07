@@ -69,7 +69,7 @@ class EditProfileTableViewCell: UITableViewCell, UITextFieldDelegate {
 //            return
 //        }
 //
-//        let ref = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: email))
+//        let ref = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: email))
 //
 //        ref.child(model.label).observeSingleEvent(of: .value, with: { [weak self]
 //            snapshot in

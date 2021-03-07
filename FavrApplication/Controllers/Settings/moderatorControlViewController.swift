@@ -9,6 +9,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
+import SwiftImage
 
 class moderatorControlViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
@@ -130,6 +131,7 @@ class moderatorControlViewController: UIViewController, UITextViewDelegate, UITe
                 "Description": deedDescription,
                 "Points": "\(deedPoints)"
             ])
+            
             guard let imagedata = imageView.image?.pngData() else {
                 return
             }
@@ -137,6 +139,47 @@ class moderatorControlViewController: UIViewController, UITextViewDelegate, UITe
             deedTitleField.text = ""
             deedDescriptionTextView.text = ""
             deedPointsField.text = ""
+            
+            let deedTitleRef = Database.database().reference().child("Admin")
+            
+            deedTitleRef.observeSingleEvent(of: .value, with: { snapshot in
+                guard var adminNode = snapshot.value as? [String: Any] else {
+                    print("Admin not found")
+                    return
+                }
+                
+                let favrEntry: [String: Any] = [
+                    "title": deedTitle
+                ]
+                
+                if var favrs = adminNode["FavrsTitles"] as? [[String: Any]] {
+                    // Favrs array exists
+                    // You should append
+                    
+                    favrs.append(favrEntry)
+                    adminNode["FavrsTitles"] = favrs
+                    deedTitleRef.setValue(adminNode, withCompletionBlock: { error, _ in
+                        guard error == nil else {
+                            return
+                        }
+                    })
+                }
+                else {
+                    // Favrs array does NOT exist
+                    // Create it
+                    
+                    adminNode["FavrsTitles"] = [
+                        favrEntry
+                    ]
+                    
+                    deedTitleRef.setValue(adminNode, withCompletionBlock: { error, _ in
+                        guard error == nil else {
+                            return
+                        }
+                    })
+                }
+            })
+
         }
         else {
             view.shake()
@@ -245,6 +288,7 @@ class moderatorControlViewController: UIViewController, UITextViewDelegate, UITe
                                       y: deedPointsField.bottom+10,
                                       width: 80,
                                       height: 50)
+        completeButton.layer.cornerRadius = 15
 
     }
 
@@ -286,8 +330,10 @@ extension moderatorControlViewController: UIImagePickerControllerDelegate, UINav
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
             return
         }
+        
+        let resultImage = selectedImage.resized(toWidth: 400)
 
-        imageView.image = selectedImage
+        imageView.image = resultImage
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

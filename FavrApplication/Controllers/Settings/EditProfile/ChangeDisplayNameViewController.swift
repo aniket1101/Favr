@@ -83,7 +83,7 @@ Some of our Username Guidelines are:
         
         if 3 <= usernameValue && usernameValue <= 20 {
             let safeEmail = DatabaseManager.safeEmail(emailAddress: (Auth.auth().currentUser?.email)!)
-            let ref = Database.database().reference().child(safeEmail)
+            let ref = Database.database().reference().child("Users").child(safeEmail)
             guard let key = ref.child("name").key else { return }
             
             let childUpdates = ["\(key)": newNameField.text,
@@ -122,7 +122,7 @@ Some of our Username Guidelines are:
         learnMoreLabel.addGestureRecognizer(gesture)
         
         let safeEmail = DatabaseManager.safeEmail(emailAddress: (Auth.auth().currentUser?.email)!)
-        let ref = Database.database().reference().child(safeEmail)
+        let ref = Database.database().reference().child("Users").child(safeEmail)
         ref.child("name").observe(.value, with: { [weak self]
             snapshot in
             let currentDisplayName = snapshot.value as? String
@@ -145,6 +145,8 @@ Some of our Username Guidelines are:
         scrollView.addSubview(learnMoreLabel)
         
         newNameField.delegate = self
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     override func viewDidLayoutSubviews() {

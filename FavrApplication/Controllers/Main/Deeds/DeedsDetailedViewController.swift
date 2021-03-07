@@ -12,6 +12,7 @@ import Firebase
 import SDWebImage
 import Layoutless
 import TransitionButton
+import MarqueeLabel
 
 class DeedsDetailedViewController: UIViewController {
     
@@ -25,14 +26,15 @@ class DeedsDetailedViewController: UIViewController {
         return imageView
     }()
     
-    let deedLabel: UILabel = {
-        let label = UILabel()
+    let deedLabel: MarqueeLabel = {
+        let label = MarqueeLabel()
         label.backgroundColor = .systemGroupedBackground
         label.textColor = .label
-        label.numberOfLines = -1
+        label.type = .rightLeft
+        label.speed = .duration(1.5)
+        label.animationCurve = .easeInOut
         label.font = UIFont(name: "Montserrat-Bold", size: 20)
         label.textAlignment = .center
-        label.layer.cornerRadius = 25
         return label
     }()
     
@@ -80,13 +82,14 @@ class DeedsDetailedViewController: UIViewController {
     @objc private func favrButtonTapped() {
         favrButton.startAnimation()
                 
-        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-            self.favrButton.stopAnimation(animationStyle: .expand, revertAfterDelay: 1) {
-                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-                    self.modalPresentationStyle = .overFullScreen
+        DispatchQueue.main.asyncAfter(deadline: .now()+1) { [weak self] in
+            self?.favrButton.stopAnimation(animationStyle: .expand, revertAfterDelay: 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) { [weak self] in
+                    self?.modalPresentationStyle = .overFullScreen
                     let vc = DeedCompletedViewController()
-                    vc.deedTitle = self.deedLabel.text ?? "Error, not"
-                    self.present(vc, animated: true)
+                    vc.deedDescription = self?.deedDescriptionLabel.text ?? "Error"
+                    vc.deedTitle = self?.deedLabel.text ?? "Error, not"
+                    self?.present(vc, animated: true)
                 }
             }
         }
@@ -161,7 +164,7 @@ class DeedsDetailedViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if self.isMovingFromParent {
-        navigationController?.navigationBar.isHidden = true
+            navigationController?.navigationBar.isHidden = true
         }
     }
     

@@ -56,6 +56,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         field.layer.borderColor = UIColor.lightGray.cgColor
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
+        field.textContentType = .emailAddress
         field.setPadding()
         field.setBottomBorder()
         field.backgroundColor = .systemBackground
@@ -75,6 +76,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
         field.setPadding()
+        field.textContentType = .password
         field.setBottomBorder()
         field.backgroundColor = .systemBackground
         field.isSecureTextEntry = true
@@ -107,20 +109,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    private let lineOneLabel: UILabel = {
-       let onelabel = UILabel()
-        onelabel.text = "————————"
-        onelabel.textColor = UIColor(named: "FavrOrange")
-        onelabel.textAlignment = .left
-        return onelabel
+    private let lineOneView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "FavrOrange")
+        return view
     }()
     
-    private let lineTwoLabel: UILabel = {
-       let twolabel = UILabel()
-        twolabel.text = "————————"
-        twolabel.textColor = UIColor(named: "FavrOrange")
-        twolabel.textAlignment = .right
-        return twolabel
+    private let lineTwoView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "FavrOrange")
+        return view
     }()
     
     private let forgotPasswordButton: UIButton = {
@@ -227,13 +225,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         // Additional stylistic pieces
         scrollView.addSubview(forgotPasswordButton)
-        scrollView.addSubview(lineOneLabel)
+        scrollView.addSubview(lineOneView)
         scrollView.addSubview(orLabel)
-        scrollView.addSubview(lineTwoLabel)
+        scrollView.addSubview(lineTwoView)
         
         // Login Services
         scrollView.addSubview(fbLoginButton)
         scrollView.addSubview(googleLoginButton)
+        
+        self.hideKeyboardWhenTappedAround()
+        
+        // Constraints
+//        lineOneView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
+//        lineOneView.trailingAnchor.constraint(equalTo: orLabel.leadingAnchor, constant: -5).isActive = true
+//        lineOneView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+//        lineOneView.centerYAnchor.constraint(equalTo: orLabel.centerYAnchor).isActive = true
+//
+//        lineTwoView.leadingAnchor.constraint(equalTo: orLabel.leadingAnchor, constant: 5).isActive = true
+//        lineTwoView.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -30).isActive = true
+//        lineTwoView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+//        lineTwoView.centerYAnchor.constraint(equalTo: orLabel.centerYAnchor).isActive = true
     }
     
     
@@ -271,18 +282,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                    y: forgotPasswordButton.bottom+20,
                                    width: scrollView.width-250,
                                    height: 50)
-        orLabel.frame = CGRect(x: (scrollView.width-size)/2,
+        orLabel.frame = CGRect(x: ((scrollView.width)/2)-(scrollView.width-250)/2,
                                y: loginButton.bottom+20,
-                               width: size,
+                               width: scrollView.width-250,
                                height: 30)
-        lineOneLabel.frame = CGRect(x: 30,
+        orLabel.center.x = view.center.x
+        lineOneView.frame = CGRect(x: 30,
                                     y: loginButton.bottom+20,
-                                    width: scrollView.width/2,
-                                    height: 30)
-        lineTwoLabel.frame = CGRect(x: (scrollView.width/2)-30,
+                                    width: orLabel.left - 35,
+                                    height: 1)
+        lineOneView.center.y = orLabel.center.y
+        lineTwoView.frame = CGRect(x: orLabel.right+5,
                                     y: loginButton.bottom+20,
-                                    width: scrollView.width/2,
-                                    height: 30)
+                                    width: view.width - (orLabel.right+5) - 30,
+                                    height: 1)
+        lineTwoView.center.y = orLabel.center.y
         googleLoginButton.frame = CGRect(x: size,
                                          y: orLabel.bottom+10,
                                          width: 52,

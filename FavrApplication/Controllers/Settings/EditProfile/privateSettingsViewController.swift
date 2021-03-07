@@ -79,7 +79,7 @@ extension privateSettingsViewController: UITableViewDelegate, UITableViewDataSou
         cell.imageView?.tintColor = .secondaryLabel
         if cell.textLabel?.text == "Email" {
             let safeEmail = DatabaseManager.safeEmail(emailAddress: (Auth.auth().currentUser?.email)!)
-            let ref = Database.database().reference().child(safeEmail)
+            let ref = Database.database().reference().child("Users").child(safeEmail)
             ref.child("email").observe(.value, with: {
                 snapshot in
                 let newInfo = snapshot.value as? String

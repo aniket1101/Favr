@@ -102,6 +102,8 @@ class currentPasswordViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(passwordLabel)
         view.addSubview(currentPasswordField)
         view.addSubview(forgotPasswordButton)
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
 

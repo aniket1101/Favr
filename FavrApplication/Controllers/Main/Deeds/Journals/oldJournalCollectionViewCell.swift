@@ -23,7 +23,7 @@ class oldJournalCollectionViewCell: UICollectionViewCell {
     
     let dateLabel: UILabel = {
         let label = UILabel()
-        label.text = "22 February 2021"
+        label.text = ""
         label.font = .systemFont(ofSize: 12, weight: .light)
         label.textColor = .label
         label.textAlignment = .right
@@ -45,8 +45,8 @@ class oldJournalCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//         Cell Design
-                
+        //         Cell Design
+        
         contentView.backgroundColor = .tertiarySystemGroupedBackground
         contentView.addSubview(textView)
         contentView.addSubview(titleLabel)
@@ -57,11 +57,27 @@ class oldJournalCollectionViewCell: UICollectionViewCell {
         contentView.layer.borderColor = UIColor.clear.cgColor
         contentView.layer.masksToBounds = false
         layer.masksToBounds = true
+        
+        //Adding a Long press event to the container view
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        lpgr.minimumPressDuration = 0.08
+        lpgr.delaysTouchesBegan = false
+        contentView.addGestureRecognizer(lpgr)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    @objc func handleLongPress(gesture : UILongPressGestureRecognizer!) {
+        if gesture.state.rawValue == 1 {
+            highlight(true)
+        }
+        else {
+            highlight(false)
+        }
+        
+      }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -82,10 +98,26 @@ class oldJournalCollectionViewCell: UICollectionViewCell {
         
     }
     
-    public func configure(titleLabelText: String, textViewText: String, dateText: String) {
-        titleLabel.text = titleLabelText
-        textView.text = textViewText
-        dateLabel.text = dateText
+    public func configure(with model: Journal) {
+        titleLabel.text = model.title
+        textView.text = model.journal
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateFormat = "dd/MM/yyyy"
+        
+        let currentDateString = formatter.string(from: Date.now())
+        let currentDate = formatter.date(from: model.date)
+        if model.date == currentDateString {
+            dateLabel.text = "Today"
+        }
+        else if currentDate?.isYesterday == true {
+            self.dateLabel.text = "Yesterday"
+        }
+        else {
+            self.dateLabel.text = model.date
+        }
     }
     
     override func prepareForReuse() {
@@ -94,5 +126,16 @@ class oldJournalCollectionViewCell: UICollectionViewCell {
         textView.text = nil
         dateLabel.text = nil
     }
+    
+    func highlight(_ touched: Bool) {
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           usingSpringWithDamping: 1.0,
+                           initialSpringVelocity: 5.0,
+                           options: [.allowUserInteraction],
+                           animations: {
+                            self.transform = touched ? .init(scaleX: 0.95, y: 0.95) : .identity
+            }, completion: nil)
+        }
     
 }

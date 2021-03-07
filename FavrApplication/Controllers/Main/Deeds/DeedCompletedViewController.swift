@@ -9,6 +9,7 @@ import UIKit
 import TransitionButton
 import Firebase
 import SwiftDate
+import Lottie
 
 class DeedCompletedViewController: CustomTransitionViewController {
     
@@ -18,10 +19,16 @@ class DeedCompletedViewController: CustomTransitionViewController {
     var completed = 0
     var streak = 0
     var totalDeeds = 0
+ 
+    // Doubles
+    
+    var currentDeedPoints: Double = 0
+    var firstPoints: Double = 0
 
     // Strings
     var deedTitle = ""
     var finalValue = ""
+    var deedDescription = ""
 
     // Bools
     var deedCompleted = false
@@ -46,12 +53,14 @@ class DeedCompletedViewController: CustomTransitionViewController {
     
     private let deedLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "Accent")
+        label.textColor = UIColor(named: "LightAccent")
         label.numberOfLines = 3
-        label.font = UIFont(name: "Montserrat-Bold", size: 18)
+        label.font = UIFont(name: "Montserrat-Bold", size: 30)
         label.textAlignment = .center
         return label
     }()
+    
+    private let animationView = AnimationView()
     
     private let completeButton: UIButton = {
         let button = UIButton()
@@ -79,7 +88,7 @@ class DeedCompletedViewController: CustomTransitionViewController {
         
         // MARK: - Retrieve Current Points
         
-        let reference = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("points")
+        let reference = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("points")
         reference.observe(.value, with: { [weak self]
             snapshot in
             let initialPoints = String(describing: snapshot.value ?? 0)
@@ -90,7 +99,7 @@ class DeedCompletedViewController: CustomTransitionViewController {
             
             if self?.deedCompleted == false {
             let safeEmail = DatabaseManager.safeEmail(emailAddress: (Auth.auth().currentUser?.email)!)
-            let ref = Database.database().reference().child(safeEmail)
+                let ref = Database.database().reference().child("Users").child(safeEmail)
             guard let key = ref.child("points").key else { return }
             
                 let childUpdates = ["\(key)": self?.finalValue,
@@ -127,7 +136,7 @@ class DeedCompletedViewController: CustomTransitionViewController {
         
         // MARK: - Update Last Deed and Streaks
         
-        let dateRef = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("lastDeed")
+        let dateRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("lastDeed")
         dateRef.observe(.value, with: { [weak self]
             snapshot in
             let dateValue = snapshot.value as! String
@@ -136,10 +145,11 @@ class DeedCompletedViewController: CustomTransitionViewController {
             formatter.dateStyle = .medium
             formatter.timeStyle = .medium
             formatter.locale = .autoupdatingCurrent
+            formatter.dateFormat = "dd/MM/yyyy"
             let finalDateValue = formatter.date(from: dateValue)
             self?.lastDate = finalDateValue!
             if self?.dateCompleted == false {
-                let secondDateRef = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
+                let secondDateRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
                 guard let dateKey = secondDateRef.child("lastDeed").key else { return }
                 let currentDate = formatter.string(from: Date.now())
                 let thirdChildUpdates = ["\(dateKey)": currentDate,
@@ -150,14 +160,14 @@ class DeedCompletedViewController: CustomTransitionViewController {
                         
             if self?.lastDate.isYesterday == true {
                 
-                let streaksRef = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("streaks")
+                let streaksRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("streaks")
                 streaksRef.observe(.value, with: { [weak self]
                     snapshot in
                     let streaksValue = String(describing: snapshot.value ?? 0)
                     self?.streak = Int(streaksValue)!
                     self?.streak += 1
                     if self?.streakCompleted == false {
-                        let streakKeyRef = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
+                        let streakKeyRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
                         guard let streakKey = streakKeyRef.child("streaks").key else { return }
                         
                         let fourthChildUpdates = ["\(streakKey)": self?.streak,
@@ -167,10 +177,13 @@ class DeedCompletedViewController: CustomTransitionViewController {
                     }
                 })
             }
+            else if self?.lastDate.isToday == true {
+                print("Last Favr was today")
+            }
             else {
                 print("Streaks status: New Streak")
                 if self?.streakCompleted == false {
-                    let streakKeyRef = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
+                    let streakKeyRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
                     guard let streakKey = streakKeyRef.child("streaks").key else { return }
                     
                     let fourthChildUpdates = ["\(streakKey)": 1,
@@ -180,14 +193,14 @@ class DeedCompletedViewController: CustomTransitionViewController {
                 }
             }
             
-            let totalDeedsRef = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("totalDeeds")
+            let totalDeedsRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("totalDeeds")
             totalDeedsRef.observe(.value, with: { [weak self]
                 snapshot in
                 let totalDeedsValue = String(describing: snapshot.value ?? 0)
                 self?.totalDeeds = Int(totalDeedsValue)!
                 self?.totalDeeds += 1
                 if self?.totalDeedsCompleted == false {
-                    let totalDeedsKeyRef = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
+                    let totalDeedsKeyRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
                     guard let totalDeedsKey = totalDeedsKeyRef.child("totalDeeds").key else { return }
                     
                     let fifthChildUpdates = ["\(totalDeedsKey)": self?.totalDeeds,
@@ -196,11 +209,66 @@ class DeedCompletedViewController: CustomTransitionViewController {
                     self?.totalDeedsCompleted = true
                 }
             })
+            
+            let database = Database.database().reference()
+            guard let currentEmail = UserDefaults.standard.value(forKey: "email") as? String else {
+                return
+            }
+            
+            let safeEmail = DatabaseManager.safeEmail(emailAddress: currentEmail)
+            let ref = database.child("Users").child("\(safeEmail)")
+
+            ref.observeSingleEvent(of: .value, with: { snapshot in
+                guard var userNode = snapshot.value as? [String: Any] else {
+                    print("User not found")
+                    return
+                }
+                
+                let formatter = DateFormatter()
+                formatter.dateStyle = .medium
+                formatter.timeStyle = .medium
+                formatter.locale = .autoupdatingCurrent
+                formatter.dateFormat = "dd/MM/yyyy"
+                
+                let currentDate = formatter.string(from: Date.now())
+                let pointString = String(describing: self?.deedValue ?? 0)
+                let pointInt = Int(pointString)!
+                                
+                let completedFavrEntry: [String: Any] = [
+                    "title": self?.deedTitle ?? "Error",
+                    "description": self?.deedDescription ?? "Error",
+                    "points": "\(pointInt)",
+                    "date": currentDate
+                ]
+                
+                if var completedFavrs = userNode["completedFavrs"] as? [[String: Any]] {
+                    // completedFavrs array exists for current user
+                    // You should append
+                    
+                    completedFavrs.append(completedFavrEntry)
+                    userNode["completedFavrs"] = completedFavrs
+                    ref.setValue(userNode, withCompletionBlock: { error, _  in
+                        guard error == nil else {
+                            return
+                        }
+                    })
+                }
+                else {
+                    // completedFavrs array does NOT exist
+                    // Create it
+                    userNode["completedFavrs"] = [
+                        completedFavrEntry
+                    ]
+                    
+                    ref.setValue(userNode, withCompletionBlock: { error, _ in
+                    guard error == nil else {
+                        return
+                        }
+                    })
+                }
+            })
         })
-        
-        
         // MARK: - Dismiss View After Completing Tasks
-        
         dismiss(animated: true, completion: nil)
         
     }
@@ -208,9 +276,12 @@ class DeedCompletedViewController: CustomTransitionViewController {
     private let pointsLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "LightAccent")
-        label.font = UIFont(name: "Montserrat-Bold", size: 16)
+        label.font = UIFont(name: "Montserrat-Bold", size: 60)
+        label.backgroundColor = UIColor(named: "FavrSecondaryBlue")
         label.textAlignment = .center
         label.numberOfLines = 1
+        label.layer.masksToBounds = true
+        label.clipsToBounds = true
         return label
     }()
     
@@ -238,9 +309,17 @@ class DeedCompletedViewController: CustomTransitionViewController {
         
         view.backgroundColor = UIColor(named: "FavrOrange")
         
-        deedLabel.text = "\"\(deedTitle)\" Completed"
+        // CA Display Link
         
+        let pointsDisplayLink = CADisplayLink(target: self, selector: #selector(pointsUpdate))
+        pointsDisplayLink.add(to: .main, forMode: .default)
+        
+        deedLabel.text = "\'\(deedTitle)\' Completed"
+        
+        startAnimation()
+
                 
+        view.addSubview(animationView)
         view.addSubview(deedLabel)
         view.addSubview(completeButton)
         view.addSubview(pointsLabel)
@@ -248,21 +327,66 @@ class DeedCompletedViewController: CustomTransitionViewController {
         view.addSubview(finalPointsLabel)
         
         deedLabel.fadeIn()
+    }
+    
+    let animationStartDate = Date()
+    let animationDuration: Double = 2
+    
+    @objc private func pointsUpdate() {
         
+        // Inital Points
+        let intialPointRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("points")
+        intialPointRef.observe(.value, with: { [weak self]
+            snapshot in
+            let initialPoints = String(describing: snapshot.value ?? 0)
+            self?.firstPoints = Double(initialPoints)!
+        })
+        
+        // Deed Points
+        let pointRef = Database.database().reference().child("Admin").child("Favrs").child(deedTitle).child("Points")
+        pointRef.observe(.value, with: { [weak self]
+            snapshot in
+            let currentDeed = String(describing: snapshot.value ?? 0)
+            self?.currentDeedPoints = Double(currentDeed)!
+        })
+        
+        let totalPoints = firstPoints + currentDeedPoints
+        
+        self.pointsLabel.text = "\(firstPoints)"
+        let now = Date()
+        let elapsedTime = now.timeIntervalSince(animationStartDate)
+                
+        if elapsedTime > animationDuration {
+            self.pointsLabel.text = "\(Int(totalPoints))"
+            pointsTextLabel.fadeOut()
+        }
+        else {
+            let percentage = elapsedTime / animationDuration
+            let finalFinalPointsValue = firstPoints + percentage * (totalPoints - firstPoints)
+            self.pointsLabel.text = "\(Int(finalFinalPointsValue))"
+        }
+    }
+    
+    func startAnimation() {
+        animationView.animation = Animation.named("confetti")
+        animationView.play()
+        animationView.loopMode = .repeat(2)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         deedLabel.frame = CGRect(x: 40,
-                                 y: 0,
+                                 y: 44,
                                  width: view.width-80,
                                  height: 120)
-        deedLabel.center = view.center
+        deedLabel.center.x = view.center.x
         pointsLabel.frame = CGRect(x: 40,
                                    y: deedLabel.bottom+10,
                                    width: view.width-80,
-                                   height: 18)
+                                   height: 70)
+        pointsTextLabel.center.x = view.center.x
+        pointsLabel.layer.cornerRadius = 16
         pointsTextLabel.frame = CGRect(x: 40,
                                        y: pointsLabel.bottom,
                                        width: view.width-80,
@@ -275,6 +399,7 @@ class DeedCompletedViewController: CustomTransitionViewController {
                                       y: finalPointsLabel.bottom+20,
                                       width: view.width-80,
                                       height: 52)
+        animationView.frame = view.bounds
         
     }
 
@@ -288,7 +413,7 @@ extension UIView {
         self.alpha = 1.0
         }, completion: completion)  }
 
-    func fadeOut(duration: TimeInterval = 1.0, delay: TimeInterval = 3.0, completion: @escaping (Bool) -> Void = {(finished: Bool) -> Void in}) {
+    func fadeOut(duration: TimeInterval = 1.0, delay: TimeInterval = 0.0, completion: @escaping (Bool) -> Void = {(finished: Bool) -> Void in}) {
         UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {
         self.alpha = 0.0
         }, completion: completion)

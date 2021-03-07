@@ -10,9 +10,13 @@
 		01EA09E5150A5D68B312963E /* Pods_FavrApplication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C29E989ECB5868E9E277CB5 /* Pods_FavrApplication.framework */; };
 		AE24CE7825E03FD1001340A1 /* DataHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE24CE7725E03FD0001340A1 /* DataHomeViewController.swift */; };
 		AE24CE8325E1649C001340A1 /* moderatorControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE24CE8225E1649C001340A1 /* moderatorControlViewController.swift */; };
+		AE29F5AA25F2397A000A77A3 /* completedFavrsDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29F5A925F2397A000A77A3 /* completedFavrsDetailedViewController.swift */; };
+		AE2F722025F40929007FFD52 /* SecondLaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2F721F25F40929007FFD52 /* SecondLaunchViewController.swift */; };
+		AE2F722D25F40BC8007FFD52 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2F722C25F40BC8007FFD52 /* TabBarViewController.swift */; };
+		AE347D4E25F2C5C6009F11B2 /* MarqueeLabel in Frameworks */ = {isa = PBXBuildFile; productRef = AE347D4D25F2C5C6009F11B2 /* MarqueeLabel */; };
+		AE347D5525F31632009F11B2 /* Pulsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE347D5425F31632009F11B2 /* Pulsing.swift */; };
 		AE3CEC9125A23DD60069E87C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CEC9025A23DD60069E87C /* AppDelegate.swift */; };
 		AE3CEC9325A23DD60069E87C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CEC9225A23DD60069E87C /* SceneDelegate.swift */; };
-		AE3CEC9525A23DD60069E87C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CEC9425A23DD60069E87C /* ViewController.swift */; };
 		AE3CEC9A25A23DD80069E87C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE3CEC9925A23DD80069E87C /* Assets.xcassets */; };
 		AE3CEC9D25A23DD80069E87C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE3CEC9B25A23DD80069E87C /* LaunchScreen.storyboard */; };
 		AE3CECA825A23DD80069E87C /* FavrApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CECA725A23DD80069E87C /* FavrApplicationTests.swift */; };
@@ -34,7 +38,7 @@
 		AE3CED4025A23E7C0069E87C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CECF325A23E7C0069E87C /* ChatViewController.swift */; };
 		AE3CED4125A23E7C0069E87C /* startPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CECF425A23E7C0069E87C /* startPageViewController.swift */; };
 		AE3CED4225A23E7C0069E87C /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CECF525A23E7C0069E87C /* LocationPickerViewController.swift */; };
-		AE3CED4325A23E7C0069E87C /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CECF625A23E7C0069E87C /* NewConversationViewController.swift */; };
+		AE3CED4325A23E7C0069E87C /* searchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CECF625A23E7C0069E87C /* searchUsersViewController.swift */; };
 		AE3CED4425A23E7C0069E87C /* RankingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CECF725A23E7C0069E87C /* RankingsViewController.swift */; };
 		AE3CED4525A23E7C0069E87C /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CECF825A23E7C0069E87C /* PhotoViewerViewController.swift */; };
 		AE3CED4625A23E7C0069E87C /* UserInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CECF925A23E7C0069E87C /* UserInformationViewController.swift */; };
@@ -58,12 +62,6 @@
 		AE3CED5C25A23E7D0069E87C /* pageThreeOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CED1625A23E7C0069E87C /* pageThreeOnboardingViewController.swift */; };
 		AE3CED5D25A23E7D0069E87C /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CED1725A23E7C0069E87C /* PermissionsViewController.swift */; };
 		AE3CED5E25A23E7D0069E87C /* pageTwoOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CED1825A23E7C0069E87C /* pageTwoOnboardingViewController.swift */; };
-		AE3CED6A25A23E920069E87C /* CustomCell 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CED6425A23E920069E87C /* CustomCell 2.swift */; };
-		AE3CED6B25A23E920069E87C /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CED6525A23E920069E87C /* CustomCell.swift */; };
-		AE3CED6C25A23E920069E87C /* CustomMessageSizeCalculator 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CED6625A23E920069E87C /* CustomMessageSizeCalculator 2.swift */; };
-		AE3CED6D25A23E920069E87C /* CustomMessageFlowLayout 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CED6725A23E920069E87C /* CustomMessageFlowLayout 2.swift */; };
-		AE3CED6E25A23E920069E87C /* CustomMessageSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CED6825A23E920069E87C /* CustomMessageSizeCalculator.swift */; };
-		AE3CED6F25A23E920069E87C /* CustomMessageFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CED6925A23E920069E87C /* CustomMessageFlowLayout.swift */; };
 		AE3CED7C25A23EA20069E87C /* 8792-chat-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = AE3CED7425A23EA20069E87C /* 8792-chat-loading.json */; };
 		AE3CED8025A23EA20069E87C /* emailAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = AE3CED7825A23EA20069E87C /* emailAnimation.json */; };
 		AE3CED8125A23EA20069E87C /* 24659-web-dev.json in Resources */ = {isa = PBXBuildFile; fileRef = AE3CED7925A23EA20069E87C /* 24659-web-dev.json */; };
@@ -81,6 +79,8 @@
 		AE3CEE2825A241BC0069E87C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE3CEE2725A241BC0069E87C /* GoogleService-Info.plist */; };
 		AE3CEE2E25A2442F0069E87C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CEE2D25A2442F0069E87C /* DatabaseManager.swift */; };
 		AE3CEE3325A2443D0069E87C /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CEE3225A2443D0069E87C /* StorageManager.swift */; };
+		AE58652B25E81D4300EA12DD /* completedFavr.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE58652A25E81D4300EA12DD /* completedFavr.swift */; };
+		AE58656425E8323B00EA12DD /* CompletedFavrsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE58656325E8323B00EA12DD /* CompletedFavrsCollectionViewCell.swift */; };
 		AE6C2E9325E2E88A00AE6BF3 /* oldJournalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6C2E9225E2E88A00AE6BF3 /* oldJournalCollectionViewCell.swift */; };
 		AE6C2E9825E2E8A300AE6BF3 /* journalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6C2E9725E2E8A300AE6BF3 /* journalsViewController.swift */; };
 		AE6C2F3925E3CF3000AE6BF3 /* detailedCurrentJournalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6C2F3825E3CF3000AE6BF3 /* detailedCurrentJournalViewController.swift */; };
@@ -100,14 +100,20 @@
 		AE8EF29925A281EC0041FBA1 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE8EF27E25A261350041FBA1 /* Montserrat-ExtraBold.ttf */; };
 		AE8EF29A25A281EE0041FBA1 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE8EF27D25A261320041FBA1 /* Montserrat-Regular.ttf */; };
 		AE8EF29B25A281EF0041FBA1 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE8EF27D25A261320041FBA1 /* Montserrat-Regular.ttf */; };
-		AE92C59A25A3A341000BDE62 /* DeedsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE92C59925A3A341000BDE62 /* DeedsCollectionViewCell.swift */; };
-		AE92C59F25A3A5A3000BDE62 /* Deed.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE92C59E25A3A5A3000BDE62 /* Deed.swift */; };
 		AE92C5A425A3BBB7000BDE62 /* DeedsDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE92C5A325A3BBB7000BDE62 /* DeedsDetailedViewController.swift */; };
 		AE9CCE9825CB323D00F84964 /* DeedUsersCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9CCE9725CB323D00F84964 /* DeedUsersCompletedViewController.swift */; };
 		AE9CCE9D25CB356A00F84964 /* DeedCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9CCE9C25CB356A00F84964 /* DeedCompletedViewController.swift */; };
 		AEA9746425C87BEA006B9E69 /* CardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AEA9746325C87BEA006B9E69 /* CardViewController.xib */; };
 		AEA9746D25C88F03006B9E69 /* DisconnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA9746C25C88F03006B9E69 /* DisconnectedView.swift */; };
 		AEA9747325C8B90A006B9E69 /* Colour.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA9747225C8B90A006B9E69 /* Colour.swift */; };
+		AEB53B9425E3FA4D00B2CE22 /* favrModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB53B9325E3FA4D00B2CE22 /* favrModel.swift */; };
+		AEB53B9C25E41E9600B2CE22 /* DeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB53B9B25E41E9600B2CE22 /* DeedModel.swift */; };
+		AEB53BA125E42B4300B2CE22 /* favrsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB53BA025E42B4300B2CE22 /* favrsCollectionViewCell.swift */; };
+		AEB53BA925E45EC800B2CE22 /* confetti.json in Resources */ = {isa = PBXBuildFile; fileRef = AEB53BA825E45EC800B2CE22 /* confetti.json */; };
+		AEB53BAF25E527DC00B2CE22 /* SwiftImage in Frameworks */ = {isa = PBXBuildFile; productRef = AEB53BAE25E527DC00B2CE22 /* SwiftImage */; };
+		AEB53BB525E5453300B2CE22 /* shopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB53BB425E5453300B2CE22 /* shopViewController.swift */; };
+		AEB53BC025E585A700B2CE22 /* qrCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB53BBF25E585A700B2CE22 /* qrCodeGenerator.swift */; };
+		AEB53BC525E5C92100B2CE22 /* qrScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB53BC425E5C92100B2CE22 /* qrScannerViewController.swift */; };
 		AEDAA8BD25C634640039435F /* HeroHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDAA8BC25C634640039435F /* HeroHelper.swift */; };
 		AEDAA91525C63F460039435F /* DeedsFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDAA91425C63F460039435F /* DeedsFirstViewController.swift */; };
 		AEDAA91B25C641DE0039435F /* SparkUI in Frameworks */ = {isa = PBXBuildFile; productRef = AEDAA91A25C641DE0039435F /* SparkUI */; };
@@ -149,10 +155,13 @@
 		78FF8966EDDB32559E2A5A7D /* Pods-FavrApplication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FavrApplication.debug.xcconfig"; path = "Target Support Files/Pods-FavrApplication/Pods-FavrApplication.debug.xcconfig"; sourceTree = "<group>"; };
 		AE24CE7725E03FD0001340A1 /* DataHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHomeViewController.swift; sourceTree = SOURCE_ROOT; };
 		AE24CE8225E1649C001340A1 /* moderatorControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moderatorControlViewController.swift; sourceTree = "<group>"; };
+		AE29F5A925F2397A000A77A3 /* completedFavrsDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = completedFavrsDetailedViewController.swift; sourceTree = "<group>"; };
+		AE2F721F25F40929007FFD52 /* SecondLaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondLaunchViewController.swift; sourceTree = "<group>"; };
+		AE2F722C25F40BC8007FFD52 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		AE347D5425F31632009F11B2 /* Pulsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pulsing.swift; sourceTree = "<group>"; };
 		AE3CEC8D25A23DD60069E87C /* FavrApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FavrApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE3CEC9025A23DD60069E87C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE3CEC9225A23DD60069E87C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		AE3CEC9425A23DD60069E87C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AE3CEC9925A23DD80069E87C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AE3CEC9C25A23DD80069E87C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AE3CEC9E25A23DD80069E87C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -179,7 +188,7 @@
 		AE3CECF325A23E7C0069E87C /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		AE3CECF425A23E7C0069E87C /* startPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = startPageViewController.swift; sourceTree = "<group>"; };
 		AE3CECF525A23E7C0069E87C /* LocationPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
-		AE3CECF625A23E7C0069E87C /* NewConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
+		AE3CECF625A23E7C0069E87C /* searchUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = searchUsersViewController.swift; sourceTree = "<group>"; };
 		AE3CECF725A23E7C0069E87C /* RankingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankingsViewController.swift; sourceTree = "<group>"; };
 		AE3CECF825A23E7C0069E87C /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
 		AE3CECF925A23E7C0069E87C /* UserInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInformationViewController.swift; sourceTree = "<group>"; };
@@ -203,12 +212,6 @@
 		AE3CED1625A23E7C0069E87C /* pageThreeOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pageThreeOnboardingViewController.swift; sourceTree = "<group>"; };
 		AE3CED1725A23E7C0069E87C /* PermissionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsViewController.swift; sourceTree = "<group>"; };
 		AE3CED1825A23E7C0069E87C /* pageTwoOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pageTwoOnboardingViewController.swift; sourceTree = "<group>"; };
-		AE3CED6425A23E920069E87C /* CustomCell 2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CustomCell 2.swift"; sourceTree = "<group>"; };
-		AE3CED6525A23E920069E87C /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
-		AE3CED6625A23E920069E87C /* CustomMessageSizeCalculator 2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CustomMessageSizeCalculator 2.swift"; sourceTree = "<group>"; };
-		AE3CED6725A23E920069E87C /* CustomMessageFlowLayout 2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CustomMessageFlowLayout 2.swift"; sourceTree = "<group>"; };
-		AE3CED6825A23E920069E87C /* CustomMessageSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMessageSizeCalculator.swift; sourceTree = "<group>"; };
-		AE3CED6925A23E920069E87C /* CustomMessageFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMessageFlowLayout.swift; sourceTree = "<group>"; };
 		AE3CED7425A23EA20069E87C /* 8792-chat-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "8792-chat-loading.json"; sourceTree = "<group>"; };
 		AE3CED7825A23EA20069E87C /* emailAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emailAnimation.json; sourceTree = "<group>"; };
 		AE3CED7925A23EA20069E87C /* 24659-web-dev.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "24659-web-dev.json"; sourceTree = "<group>"; };
@@ -226,6 +229,8 @@
 		AE3CEE2725A241BC0069E87C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AE3CEE2D25A2442F0069E87C /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		AE3CEE3225A2443D0069E87C /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		AE58652A25E81D4300EA12DD /* completedFavr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = completedFavr.swift; sourceTree = "<group>"; };
+		AE58656325E8323B00EA12DD /* CompletedFavrsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedFavrsCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE6C2E9225E2E88A00AE6BF3 /* oldJournalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oldJournalCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE6C2E9725E2E8A300AE6BF3 /* journalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = journalsViewController.swift; sourceTree = "<group>"; };
 		AE6C2F3825E3CF3000AE6BF3 /* detailedCurrentJournalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailedCurrentJournalViewController.swift; sourceTree = "<group>"; };
@@ -239,14 +244,19 @@
 		AE8EF27D25A261320041FBA1 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		AE8EF27E25A261350041FBA1 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
 		AE8EF27F25A261790041FBA1 /* 4245-views.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "4245-views.json"; sourceTree = "<group>"; };
-		AE92C59925A3A341000BDE62 /* DeedsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeedsCollectionViewCell.swift; sourceTree = "<group>"; };
-		AE92C59E25A3A5A3000BDE62 /* Deed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deed.swift; sourceTree = "<group>"; };
 		AE92C5A325A3BBB7000BDE62 /* DeedsDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeedsDetailedViewController.swift; sourceTree = "<group>"; };
 		AE9CCE9725CB323D00F84964 /* DeedUsersCompletedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeedUsersCompletedViewController.swift; sourceTree = "<group>"; };
 		AE9CCE9C25CB356A00F84964 /* DeedCompletedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeedCompletedViewController.swift; sourceTree = "<group>"; };
 		AEA9746325C87BEA006B9E69 /* CardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
 		AEA9746C25C88F03006B9E69 /* DisconnectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectedView.swift; sourceTree = "<group>"; };
 		AEA9747225C8B90A006B9E69 /* Colour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colour.swift; sourceTree = "<group>"; };
+		AEB53B9325E3FA4D00B2CE22 /* favrModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = favrModel.swift; sourceTree = "<group>"; };
+		AEB53B9B25E41E9600B2CE22 /* DeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeedModel.swift; sourceTree = "<group>"; };
+		AEB53BA025E42B4300B2CE22 /* favrsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = favrsCollectionViewCell.swift; sourceTree = "<group>"; };
+		AEB53BA825E45EC800B2CE22 /* confetti.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = confetti.json; path = ../../../../Downloads/confetti.json; sourceTree = "<group>"; };
+		AEB53BB425E5453300B2CE22 /* shopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shopViewController.swift; sourceTree = "<group>"; };
+		AEB53BBF25E585A700B2CE22 /* qrCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = qrCodeGenerator.swift; sourceTree = "<group>"; };
+		AEB53BC425E5C92100B2CE22 /* qrScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = qrScannerViewController.swift; sourceTree = "<group>"; };
 		AEDAA8BC25C634640039435F /* HeroHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHelper.swift; sourceTree = "<group>"; };
 		AEDAA91425C63F460039435F /* DeedsFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeedsFirstViewController.swift; sourceTree = "<group>"; };
 		AEEAB2E425A250120052A51B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -269,7 +279,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE347D4E25F2C5C6009F11B2 /* MarqueeLabel in Frameworks */,
 				AEDAA91B25C641DE0039435F /* SparkUI in Frameworks */,
+				AEB53BAF25E527DC00B2CE22 /* SwiftImage in Frameworks */,
 				01EA09E5150A5D68B312963E /* Pods_FavrApplication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,10 +361,8 @@
 				AE3CEDC625A23EDF0069E87C /* UserVerification */,
 				AE3CED8725A23EA90069E87C /* Models */,
 				AE3CED7325A23EA20069E87C /* JSON */,
-				AE3CED6325A23E920069E87C /* CustomMessageCells */,
 				AE3CEC9025A23DD60069E87C /* AppDelegate.swift */,
 				AE3CEC9225A23DD60069E87C /* SceneDelegate.swift */,
-				AE3CEC9425A23DD60069E87C /* ViewController.swift */,
 				AEEAB2E425A250120052A51B /* Main.storyboard */,
 				AE3CEC9925A23DD80069E87C /* Assets.xcassets */,
 				AE3CEC9B25A23DD80069E87C /* LaunchScreen.storyboard */,
@@ -413,6 +423,7 @@
 				AE3CECD525A23E7C0069E87C /* Menu */,
 				AE8EF24925A25AB90041FBA1 /* ProfileViewController.swift */,
 				AE24CE8225E1649C001340A1 /* moderatorControlViewController.swift */,
+				AE29F5A925F2397A000A77A3 /* completedFavrsDetailedViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -435,6 +446,7 @@
 			isa = PBXGroup;
 			children = (
 				AE3CECD625A23E7C0069E87C /* PrivacyAndSecurity */,
+				AE58656325E8323B00EA12DD /* CompletedFavrsCollectionViewCell.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -458,6 +470,9 @@
 				AE3CECED25A23E7C0069E87C /* changeInfoViewController.swift */,
 				AEA9746C25C88F03006B9E69 /* DisconnectedView.swift */,
 				AEA9747225C8B90A006B9E69 /* Colour.swift */,
+				AEB53BBF25E585A700B2CE22 /* qrCodeGenerator.swift */,
+				AEB53BC425E5C92100B2CE22 /* qrScannerViewController.swift */,
+				AE347D5425F31632009F11B2 /* Pulsing.swift */,
 			);
 			path = Tryouts;
 			sourceTree = "<group>";
@@ -465,11 +480,12 @@
 		AE3CECF225A23E7C0069E87C /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				AEB53BB325E5450F00B2CE22 /* Shop */,
 				AE24CE7625E03FB8001340A1 /* Data View */,
 				AE3CECF325A23E7C0069E87C /* ChatViewController.swift */,
 				AE3CECF425A23E7C0069E87C /* startPageViewController.swift */,
 				AE3CECF525A23E7C0069E87C /* LocationPickerViewController.swift */,
-				AE3CECF625A23E7C0069E87C /* NewConversationViewController.swift */,
+				AE3CECF625A23E7C0069E87C /* searchUsersViewController.swift */,
 				AE3CECF725A23E7C0069E87C /* RankingsViewController.swift */,
 				AE3CECF825A23E7C0069E87C /* PhotoViewerViewController.swift */,
 				AE3CECF925A23E7C0069E87C /* UserInformationViewController.swift */,
@@ -486,8 +502,6 @@
 			isa = PBXGroup;
 			children = (
 				AE3CECFB25A23E7C0069E87C /* DeedsViewController.swift */,
-				AE92C59925A3A341000BDE62 /* DeedsCollectionViewCell.swift */,
-				AE92C59E25A3A5A3000BDE62 /* Deed.swift */,
 				AE92C5A325A3BBB7000BDE62 /* DeedsDetailedViewController.swift */,
 				AEDAA8BC25C634640039435F /* HeroHelper.swift */,
 				AEDAA91425C63F460039435F /* DeedsFirstViewController.swift */,
@@ -495,7 +509,11 @@
 				AE705D9025C9B90600227F4E /* DeedsCardViewController.swift */,
 				AE9CCE9725CB323D00F84964 /* DeedUsersCompletedViewController.swift */,
 				AE9CCE9C25CB356A00F84964 /* DeedCompletedViewController.swift */,
+				AEB53B9325E3FA4D00B2CE22 /* favrModel.swift */,
+				AEB53BA025E42B4300B2CE22 /* favrsCollectionViewCell.swift */,
 				AEF2158F25E2E4DE0041A8E5 /* Journals */,
+				AEB53B9B25E41E9600B2CE22 /* DeedModel.swift */,
+				AE58652A25E81D4300EA12DD /* completedFavr.swift */,
 			);
 			path = Deeds;
 			sourceTree = "<group>";
@@ -563,19 +581,6 @@
 			path = Pages;
 			sourceTree = "<group>";
 		};
-		AE3CED6325A23E920069E87C /* CustomMessageCells */ = {
-			isa = PBXGroup;
-			children = (
-				AE3CED6425A23E920069E87C /* CustomCell 2.swift */,
-				AE3CED6525A23E920069E87C /* CustomCell.swift */,
-				AE3CED6625A23E920069E87C /* CustomMessageSizeCalculator 2.swift */,
-				AE3CED6725A23E920069E87C /* CustomMessageFlowLayout 2.swift */,
-				AE3CED6825A23E920069E87C /* CustomMessageSizeCalculator.swift */,
-				AE3CED6925A23E920069E87C /* CustomMessageFlowLayout.swift */,
-			);
-			path = CustomMessageCells;
-			sourceTree = "<group>";
-		};
 		AE3CED7325A23EA20069E87C /* JSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,6 +590,7 @@
 				AE3CED7825A23EA20069E87C /* emailAnimation.json */,
 				AE3CED7925A23EA20069E87C /* 24659-web-dev.json */,
 				AE3CED7A25A23EA20069E87C /* 35105-follow-ball.json */,
+				AEB53BA825E45EC800B2CE22 /* confetti.json */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -632,6 +638,8 @@
 		AE3CEDDC25A23EE70069E87C /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				AE2F721F25F40929007FFD52 /* SecondLaunchViewController.swift */,
+				AE2F722C25F40BC8007FFD52 /* TabBarViewController.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -643,6 +651,14 @@
 				AE3CEE3225A2443D0069E87C /* StorageManager.swift */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		AEB53BB325E5450F00B2CE22 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				AEB53BB425E5453300B2CE22 /* shopViewController.swift */,
+			);
+			path = Shop;
 			sourceTree = "<group>";
 		};
 		AEF2158F25E2E4DE0041A8E5 /* Journals */ = {
@@ -676,6 +692,8 @@
 			name = FavrApplication;
 			packageProductDependencies = (
 				AEDAA91A25C641DE0039435F /* SparkUI */,
+				AEB53BAE25E527DC00B2CE22 /* SwiftImage */,
+				AE347D4D25F2C5C6009F11B2 /* MarqueeLabel */,
 			);
 			productName = FavrApplication;
 			productReference = AE3CEC8D25A23DD60069E87C /* FavrApplication.app */;
@@ -750,6 +768,8 @@
 			mainGroup = AE3CEC8425A23DD50069E87C;
 			packageReferences = (
 				AEDAA91925C641DE0039435F /* XCRemoteSwiftPackageReference "SparkUI" */,
+				AEB53BAD25E527DC00B2CE22 /* XCRemoteSwiftPackageReference "swift-image" */,
+				AE347D4C25F2C5C6009F11B2 /* XCRemoteSwiftPackageReference "MarqueeLabel" */,
 			);
 			productRefGroup = AE3CEC8E25A23DD60069E87C /* Products */;
 			projectDirPath = "";
@@ -777,6 +797,7 @@
 				AE3CED8025A23EA20069E87C /* emailAnimation.json in Resources */,
 				AEEAB2E525A250120052A51B /* Main.storyboard in Resources */,
 				AE8EF28B25A267FB0041FBA1 /* Montserrat-ExtraBold.ttf in Resources */,
+				AEB53BA925E45EC800B2CE22 /* confetti.json in Resources */,
 				AE3CEC9D25A23DD80069E87C /* LaunchScreen.storyboard in Resources */,
 				AEA9746425C87BEA006B9E69 /* CardViewController.xib in Resources */,
 				AE705D8C25C9AFD400227F4E /* 44656-error.json in Resources */,
@@ -871,27 +892,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE3CED5B25A23E7D0069E87C /* pageFourOnboardingViewController.swift in Sources */,
+				AEB53BA125E42B4300B2CE22 /* favrsCollectionViewCell.swift in Sources */,
+				AE347D5525F31632009F11B2 /* Pulsing.swift in Sources */,
 				AE3CED5025A23E7C0069E87C /* ContentsView.swift in Sources */,
+				AE58652B25E81D4300EA12DD /* completedFavr.swift in Sources */,
 				AE3CED5925A23E7D0069E87C /* OnboardingContentView.swift in Sources */,
 				AEEAB33125A253210052A51B /* VerifyEmailViewController.swift in Sources */,
-				AE3CED6E25A23E920069E87C /* CustomMessageSizeCalculator.swift in Sources */,
 				AE3CED5A25A23E7D0069E87C /* OnboardingViewController.swift in Sources */,
-				AE3CEC9525A23DD60069E87C /* ViewController.swift in Sources */,
-				AE3CED6B25A23E920069E87C /* CustomCell.swift in Sources */,
 				AEEAB33A25A253210052A51B /* editProfileViewController.swift in Sources */,
 				AE3CED9D25A23EA90069E87C /* VideoThumbnailModel.swift in Sources */,
-				AE92C59A25A3A341000BDE62 /* DeedsCollectionViewCell.swift in Sources */,
 				AEEAB33425A253210052A51B /* DeedsAndChatsViewController.swift in Sources */,
 				AE9CCE9D25CB356A00F84964 /* DeedCompletedViewController.swift in Sources */,
+				AEB53BC025E585A700B2CE22 /* qrCodeGenerator.swift in Sources */,
 				AE3CEDD625A23EDF0069E87C /* userVerificationAlert.swift in Sources */,
 				AE3CED1A25A23E7C0069E87C /* privateSettingsViewController.swift in Sources */,
 				AE3CED1B25A23E7C0069E87C /* ChangeNameViewController.swift in Sources */,
 				AE3CED5125A23E7C0069E87C /* WelcomeViewController.swift in Sources */,
 				AE3CED4025A23E7C0069E87C /* ChatViewController.swift in Sources */,
-				AE3CED6A25A23E920069E87C /* CustomCell 2.swift in Sources */,
 				AEDAA91525C63F460039435F /* DeedsFirstViewController.swift in Sources */,
 				AE3CED3425A23E7C0069E87C /* settingsPressedView.swift in Sources */,
-				AE3CED6C25A23E920069E87C /* CustomMessageSizeCalculator 2.swift in Sources */,
 				AEDAA8BD25C634640039435F /* HeroHelper.swift in Sources */,
 				AEEAB33625A253210052A51B /* AccountSettingsViewController.swift in Sources */,
 				AE3CED4125A23E7C0069E87C /* startPageViewController.swift in Sources */,
@@ -900,10 +919,11 @@
 				AE8EF27825A25E7B0041FBA1 /* ConversationTableViewCell.swift in Sources */,
 				AE3CED5D25A23E7D0069E87C /* PermissionsViewController.swift in Sources */,
 				AEA9746D25C88F03006B9E69 /* DisconnectedView.swift in Sources */,
-				AE3CED6F25A23E920069E87C /* CustomMessageFlowLayout.swift in Sources */,
 				AE705D9125C9B90600227F4E /* DeedsCardViewController.swift in Sources */,
 				AE3CED5425A23E7C0069E87C /* PrivacyPolicyViewController.swift in Sources */,
+				AE29F5AA25F2397A000A77A3 /* completedFavrsDetailedViewController.swift in Sources */,
 				AE3CEDD725A23EDF0069E87C /* RequireUserAttentionAnimation.swift in Sources */,
+				AEB53B9425E3FA4D00B2CE22 /* favrModel.swift in Sources */,
 				AE24CE8325E1649C001340A1 /* moderatorControlViewController.swift in Sources */,
 				AE3CED5525A23E7C0069E87C /* TermsAndConditions.swift in Sources */,
 				AE3CED3A25A23E7C0069E87C /* logOutView.swift in Sources */,
@@ -929,8 +949,7 @@
 				AE3CED4625A23E7C0069E87C /* UserInformationViewController.swift in Sources */,
 				AE3CEDD125A23EDF0069E87C /* UserVerificationViewController.swift in Sources */,
 				AE3CED4B25A23E7C0069E87C /* ContentViewController.swift in Sources */,
-				AE3CED4325A23E7C0069E87C /* NewConversationViewController.swift in Sources */,
-				AE92C59F25A3A5A3000BDE62 /* Deed.swift in Sources */,
+				AE3CED4325A23E7C0069E87C /* searchUsersViewController.swift in Sources */,
 				AE3CED3525A23E7C0069E87C /* forgotPasswordView 2.swift in Sources */,
 				AE3CED3C25A23E7C0069E87C /* changeInfoViewController.swift in Sources */,
 				AE6C2E9325E2E88A00AE6BF3 /* oldJournalCollectionViewCell.swift in Sources */,
@@ -941,6 +960,9 @@
 				AEA9747325C8B90A006B9E69 /* Colour.swift in Sources */,
 				AEEAB32F25A253210052A51B /* AdditionalLicensesViewController.swift in Sources */,
 				AE3CED1D25A23E7C0069E87C /* currentPasswordViewController.swift in Sources */,
+				AEB53B9C25E41E9600B2CE22 /* DeedModel.swift in Sources */,
+				AE58656425E8323B00EA12DD /* CompletedFavrsCollectionViewCell.swift in Sources */,
+				AEB53BB525E5453300B2CE22 /* shopViewController.swift in Sources */,
 				AEEAB33325A253210052A51B /* DeleteAccountViewController.swift in Sources */,
 				AE6C2E9825E2E8A300AE6BF3 /* journalsViewController.swift in Sources */,
 				AEEAB33925A253210052A51B /* DetailedAccountViewController.swift in Sources */,
@@ -950,6 +972,7 @@
 				AE6C2F3925E3CF3000AE6BF3 /* detailedCurrentJournalViewController.swift in Sources */,
 				AE8EF27325A25DAC0041FBA1 /* Extensions.swift in Sources */,
 				AE3CED1E25A23E7C0069E87C /* ChangeEmailViewController.swift in Sources */,
+				AEB53BC525E5C92100B2CE22 /* qrScannerViewController.swift in Sources */,
 				AE3CED9725A23EA90069E87C /* ChatModels.swift in Sources */,
 				AE3CED1F25A23E7C0069E87C /* ChangeStatusViewController.swift in Sources */,
 				AE3CED5C25A23E7D0069E87C /* pageThreeOnboardingViewController.swift in Sources */,
@@ -957,10 +980,11 @@
 				AE24CE7825E03FD1001340A1 /* DataHomeViewController.swift in Sources */,
 				AE3CED9E25A23EA90069E87C /* ProfileViewModel.swift in Sources */,
 				AE3CED4C25A23E7C0069E87C /* ForgotPasswordViewController.swift in Sources */,
+				AE2F722D25F40BC8007FFD52 /* TabBarViewController.swift in Sources */,
 				AE3CED2925A23E7C0069E87C /* PrivacyTableViewController.swift in Sources */,
-				AE3CED6D25A23E920069E87C /* CustomMessageFlowLayout 2.swift in Sources */,
 				AEEAB33B25A253210052A51B /* DetailedProfileViewController.swift in Sources */,
 				AE3CED4425A23E7C0069E87C /* RankingsViewController.swift in Sources */,
+				AE2F722025F40929007FFD52 /* SecondLaunchViewController.swift in Sources */,
 				AE3CED4A25A23E7C0069E87C /* ConversationsViewController.swift in Sources */,
 				AEEAB33525A253210052A51B /* ChangeProfilePictureViewController.swift in Sources */,
 			);
@@ -1291,6 +1315,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		AE347D4C25F2C5C6009F11B2 /* XCRemoteSwiftPackageReference "MarqueeLabel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cbpowell/MarqueeLabel.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.5;
+			};
+		};
+		AEB53BAD25E527DC00B2CE22 /* XCRemoteSwiftPackageReference "swift-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/koher/swift-image.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.1;
+			};
+		};
 		AEDAA91925C641DE0039435F /* XCRemoteSwiftPackageReference "SparkUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rebeloper/SparkUI.git";
@@ -1302,6 +1342,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AE347D4D25F2C5C6009F11B2 /* MarqueeLabel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AE347D4C25F2C5C6009F11B2 /* XCRemoteSwiftPackageReference "MarqueeLabel" */;
+			productName = MarqueeLabel;
+		};
+		AEB53BAE25E527DC00B2CE22 /* SwiftImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AEB53BAD25E527DC00B2CE22 /* XCRemoteSwiftPackageReference "swift-image" */;
+			productName = SwiftImage;
+		};
 		AEDAA91A25C641DE0039435F /* SparkUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AEDAA91925C641DE0039435F /* XCRemoteSwiftPackageReference "SparkUI" */;

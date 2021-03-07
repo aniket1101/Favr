@@ -107,7 +107,15 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow Favr access to your camera</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Please allow Favr access to Face ID for authentication</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Please allow Favr access to your location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Please allow Favr access to your microphone</string>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

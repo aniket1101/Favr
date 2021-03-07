@@ -65,7 +65,7 @@ class NewConversationCell: UITableViewCell {
     }
     
     public func configure(with model: SearchResult) {
-        let reference = Database.database().reference().child(DatabaseManager.safeEmail(emailAddress: model.email))
+        let reference = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: model.email))
         reference.child("Status").observeSingleEvent(of: .value, with: {
             snapshot in
             let newStatus = snapshot.value as? String
@@ -74,9 +74,10 @@ class NewConversationCell: UITableViewCell {
         reference.child("name").observeSingleEvent(of: .value, with: {
             snapshot in
             let newName = snapshot.value as? String
-            self.userNameLabel.text = "@"+newName!
+            self.userNameLabel.text = "@\(newName ?? "User")"
         })
-        let path = "images/\(model.email)_profile_picture.png"
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: model.email)
+        let path = "images/\(safeEmail)_profile_picture.png"
         StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in
             switch result {
             case .success(let url):

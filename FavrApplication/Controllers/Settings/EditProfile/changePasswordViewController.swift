@@ -178,7 +178,8 @@ class changePasswordViewController: UIViewController, UITextFieldDelegate {
             SwiftEntryKit.dismiss()
             self?.navigationController?.popToRootViewController(animated: true)
         }
-
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
 

@@ -32,6 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance()?.delegate = self
         
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = SecondLaunchViewController()
+        window.makeKeyAndVisible()
+        self.window = window
+        
         return true
     }
     

@@ -28,14 +28,13 @@ class logOutView: UIView {
         
                     do {
                         try FirebaseAuth.Auth.auth().signOut()
-        
+                        
                         NotificationCenter.default.post(name: NSNotification.Name("logOut"), object: nil)
                     }
                     catch {
                         print("Failed to log out")
-        
+                        
                     }
-        
     }
     
     private let animationView = AnimationView()

@@ -124,11 +124,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>InputBarAccessoryView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>JGProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -140,11 +135,6 @@
 			<false/>
 		</dict>
 		<key>MaterialComponents.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MessageKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -170,11 +160,6 @@
 			<false/>
 		</dict>
 		<key>QuickLayout.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>RAMAnimatedTabBarController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
