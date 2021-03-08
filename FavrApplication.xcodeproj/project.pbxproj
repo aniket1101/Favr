@@ -13,6 +13,9 @@
 		AE29F5AA25F2397A000A77A3 /* completedFavrsDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29F5A925F2397A000A77A3 /* completedFavrsDetailedViewController.swift */; };
 		AE2F722025F40929007FFD52 /* SecondLaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2F721F25F40929007FFD52 /* SecondLaunchViewController.swift */; };
 		AE2F722D25F40BC8007FFD52 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2F722C25F40BC8007FFD52 /* TabBarViewController.swift */; };
+		AE2F72CF25F5019B007FFD52 /* detailPressedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2F72CE25F5019B007FFD52 /* detailPressedView.swift */; };
+		AE2F72D425F52905007FFD52 /* followingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2F72D325F52905007FFD52 /* followingViewController.swift */; };
+		AE2F72D925F5291A007FFD52 /* followersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2F72D825F5291A007FFD52 /* followersViewController.swift */; };
 		AE347D4E25F2C5C6009F11B2 /* MarqueeLabel in Frameworks */ = {isa = PBXBuildFile; productRef = AE347D4D25F2C5C6009F11B2 /* MarqueeLabel */; };
 		AE347D5525F31632009F11B2 /* Pulsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE347D5425F31632009F11B2 /* Pulsing.swift */; };
 		AE3CEC9125A23DD60069E87C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3CEC9025A23DD60069E87C /* AppDelegate.swift */; };
@@ -158,6 +161,9 @@
 		AE29F5A925F2397A000A77A3 /* completedFavrsDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = completedFavrsDetailedViewController.swift; sourceTree = "<group>"; };
 		AE2F721F25F40929007FFD52 /* SecondLaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondLaunchViewController.swift; sourceTree = "<group>"; };
 		AE2F722C25F40BC8007FFD52 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		AE2F72CE25F5019B007FFD52 /* detailPressedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailPressedView.swift; sourceTree = "<group>"; };
+		AE2F72D325F52905007FFD52 /* followingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = followingViewController.swift; sourceTree = "<group>"; };
+		AE2F72D825F5291A007FFD52 /* followersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = followersViewController.swift; sourceTree = "<group>"; };
 		AE347D5425F31632009F11B2 /* Pulsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pulsing.swift; sourceTree = "<group>"; };
 		AE3CEC8D25A23DD60069E87C /* FavrApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FavrApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE3CEC9025A23DD60069E87C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -473,6 +479,9 @@
 				AEB53BBF25E585A700B2CE22 /* qrCodeGenerator.swift */,
 				AEB53BC425E5C92100B2CE22 /* qrScannerViewController.swift */,
 				AE347D5425F31632009F11B2 /* Pulsing.swift */,
+				AE2F72CE25F5019B007FFD52 /* detailPressedView.swift */,
+				AE2F72D325F52905007FFD52 /* followingViewController.swift */,
+				AE2F72D825F5291A007FFD52 /* followersViewController.swift */,
 			);
 			path = Tryouts;
 			sourceTree = "<group>";
@@ -894,6 +903,7 @@
 				AE3CED5B25A23E7D0069E87C /* pageFourOnboardingViewController.swift in Sources */,
 				AEB53BA125E42B4300B2CE22 /* favrsCollectionViewCell.swift in Sources */,
 				AE347D5525F31632009F11B2 /* Pulsing.swift in Sources */,
+				AE2F72CF25F5019B007FFD52 /* detailPressedView.swift in Sources */,
 				AE3CED5025A23E7C0069E87C /* ContentsView.swift in Sources */,
 				AE58652B25E81D4300EA12DD /* completedFavr.swift in Sources */,
 				AE3CED5925A23E7D0069E87C /* OnboardingContentView.swift in Sources */,
@@ -931,6 +941,7 @@
 				AE3CED9625A23EA90069E87C /* AccountSettingsViewModel.swift in Sources */,
 				AE3CED4525A23E7C0069E87C /* PhotoViewerViewController.swift in Sources */,
 				AE3CED2025A23E7C0069E87C /* ChangeDisplayNameViewController.swift in Sources */,
+				AE2F72D925F5291A007FFD52 /* followersViewController.swift in Sources */,
 				AE3CEE3325A2443D0069E87C /* StorageManager.swift in Sources */,
 				AEEAB33725A253210052A51B /* AppearanceSettingsViewController.swift in Sources */,
 				AE92C5A425A3BBB7000BDE62 /* DeedsDetailedViewController.swift in Sources */,
@@ -986,6 +997,7 @@
 				AE3CED4425A23E7C0069E87C /* RankingsViewController.swift in Sources */,
 				AE2F722025F40929007FFD52 /* SecondLaunchViewController.swift in Sources */,
 				AE3CED4A25A23E7C0069E87C /* ConversationsViewController.swift in Sources */,
+				AE2F72D425F52905007FFD52 /* followingViewController.swift in Sources */,
 				AEEAB33525A253210052A51B /* ChangeProfilePictureViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

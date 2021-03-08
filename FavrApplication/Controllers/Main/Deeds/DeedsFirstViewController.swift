@@ -141,7 +141,7 @@ class DeedsFirstViewController: UIViewController {
         self.view.addSubview(cardViewController.view)
         
         cardViewController.view.frame = CGRect(x: 0,
-                                               y: self.view.frame.height - self.cardHandleAreaHeight-85,
+                                               y: self.view.frame.height - self.cardHandleAreaHeight,
                                                width: self.view.bounds.width,
                                                height: cardHeight)
         

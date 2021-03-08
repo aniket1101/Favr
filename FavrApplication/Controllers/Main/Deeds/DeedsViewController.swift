@@ -69,7 +69,10 @@ class DeedsViewController: UIViewController, UICollectionViewDelegate {
     /// Presents the Rankings View
     @objc private func rankingsButtonTapped() {
         let vc = RankingsViewController()
-        navigationController?.present(vc, animated: true, completion: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        navigationController?.present(nav, animated: true, completion: nil)
     }
     
     /// Presents the Journals View
@@ -239,7 +242,7 @@ class DeedsViewController: UIViewController, UICollectionViewDelegate {
         view.addSubview(singleView)
         view.addSubview(progressBar)
 //        view.addSubview(chatButton)
-        view.addSubview(rankingsButton)
+//        view.addSubview(rankingsButton)
         view.addSubview(noFavrsLabel)
         view.addSubview(animationView)
         view.addSubview(journalsButton)
@@ -249,9 +252,9 @@ class DeedsViewController: UIViewController, UICollectionViewDelegate {
         rankingsButton.translatesAutoresizingMaskIntoConstraints = false
         journalsButton.translatesAutoresizingMaskIntoConstraints = false
         [
-            rankingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            rankingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            rankingsButton.heightAnchor.constraint(equalToConstant: 30),
+//            rankingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+//            rankingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+//            rankingsButton.heightAnchor.constraint(equalToConstant: 30),
             journalsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             journalsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             journalsButton.heightAnchor.constraint(equalToConstant: 30),

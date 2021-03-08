@@ -19,6 +19,8 @@ class CompletedFavrsCollectionViewCell: UICollectionViewCell {
         label.textColor = .label
         label.textAlignment = .left
         label.isUserInteractionEnabled = false
+        label.adjustsFontSizeToFitWidth = true
+        label.lineBreakMode = .byTruncatingTail
 //        label.backgroundColor = .systemFill
         return label
     }()
@@ -85,7 +87,7 @@ class CompletedFavrsCollectionViewCell: UICollectionViewCell {
                                   y: 10,
                                   width: contentView.width-20,
                                   height: 35)
-        titleLabel.sizeToFit()
+//        titleLabel.sizeToFit()
         pointsLabel.frame = CGRect(x: 10,
                                    y: titleLabel.bottom,
                                    width: 80,
@@ -107,7 +109,12 @@ class CompletedFavrsCollectionViewCell: UICollectionViewCell {
     public func configure(with model: completedFavr) {
         titleLabel.text = model.title
         textView.text = model.description
-        pointsLabel.text = "\(model.points) Points"
+        if model.points == "1" {
+        pointsLabel.text = "\(model.points) Point"
+        }
+        else {
+            pointsLabel.text = "\(model.points) Points"
+        }
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .medium

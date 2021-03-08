@@ -45,6 +45,7 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
         imageView.backgroundColor = .systemBackground
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 50
+        imageView.alpha = 0
         return imageView
     }()
     
@@ -54,6 +55,7 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
         label.font = UIFont(name: "Montserrat-Bold", size: 21)
         label.textColor = .label
         label.textAlignment = .center
+        label.alpha = 0
         return label
     }()
     
@@ -69,36 +71,75 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
         return label
     }()
     
-    private let qrButton: UIButton = {
+    private let favrsButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "qrcode"), for: .normal)
-        button.imageView?.tintColor = .label
-        button.setBackground(color: .systemFill)
-        button.addTarget(self, action: #selector(QRCodeTapped), for: .touchUpInside)
+        button.setTitle("Favrs", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Monstserrat-Regular", size: 4)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+//        button.backgroundColor = .greenGrass
+        button.alpha = 0
+        button.addRightBorder(.separator, width: 1)
         return button
     }()
     
-    private let detailButton: UIButton = {
+    private let pointsButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart.text.square"), for: .normal)
-        button.imageView?.tintColor = .label
-        button.setBackground(color: .systemFill)
-        button.addTarget(self, action: #selector(detailButtonTapped), for: .touchUpInside)
+        button.setTitle("Points", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Monstserrat-Regular", size: 4)
+        button.titleLabel?.textAlignment = .center
+//        button.backgroundColor = .greenGrass
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.addRightBorder(.separator, width: 1)
+        button.alpha = 0
         return button
     }()
     
-    @objc private func QRCodeTapped() {
-        print("QR Code Tapped")
-        let vc = qrCodeGenerator()
-        vc.profilePicture.image = profilePicture.image
-        vc.usernameLabel.text = usernameLabel.text
-        let nav = UINavigationController(rootViewController: vc)
+    private let followersButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Followers", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Monstserrat-Regular", size: 4)
+        button.titleLabel?.textAlignment = .center
+//        button.backgroundColor = .greenGrass
+        button.addTarget(self, action: #selector(followersButtonTapped), for: .touchUpInside)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.addRightBorder(.separator, width: 1)
+        button.alpha = 0
+        return button
+    }()
+    
+    @objc private func followersButtonTapped() {
+        SwiftEntryKit.dismiss()
         
-        present(nav, animated: true, completion: nil)
+        // Go back to Followers View
+        let vc = followersViewController()
+        vc.email = "\(Auth.auth().currentUser?.email ?? "email")"
+        present(vc, animated: true, completion: nil)
     }
     
-    @objc private func detailButtonTapped() {
-        print("Detail Button Tapped")
+    private let followingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Following", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Monstserrat-Regular", size: 4)
+        button.titleLabel?.textAlignment = .center
+//        button.backgroundColor = .greenGrass
+        button.addTarget(self, action: #selector(followingButtonTapped), for: .touchUpInside)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.alpha = 0
+        return button
+    }()
+    
+    @objc private func followingButtonTapped() {
+        SwiftEntryKit.dismiss()
+        
+        // Go back to Following View
+        let vc = followingViewController()
+        vc.email = "\(Auth.auth().currentUser?.email ?? "email")"
+        present(vc, animated: true, completion: nil)
     }
     
     private let statusLabel: UILabel = {
@@ -108,6 +149,7 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
         label.textColor = .label
         label.textAlignment = .center
         label.numberOfLines = 1
+        label.alpha = 0
         return label
     }()
     
@@ -116,18 +158,20 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
         label.font = UIFont(name: "Montserrat-Bold", size: 14)
         label.textAlignment = .center
         label.textColor = .label
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     private let editProfileButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Edit Profile", for: .normal)
-        button.setTitleColor(UIColor.label, for: .normal)
-        button.layer.borderColor = UIColor.label.cgColor
-        button.layer.borderWidth = 1
+        button.backgroundColor = UIColor(named: "FavrOrange")
+        button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.imageView?.tintColor = .label
         button.layer.cornerRadius = 2
-        button.titleLabel?.font = UIFont(name: "Montserrat-Bold", size: 14)
         button.layer.masksToBounds = true
+        button.clipsToBounds = true
+        button.alpha = 0
         button.addTarget(self, action: #selector(editProfilePressed), for: .touchUpInside)
         return button
     }()
@@ -173,20 +217,29 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
             self?.navigationController?.setNavigationBarHidden(false, animated: false)
             self?.navigationController?.pushViewController(AccountSettingsViewController(), animated: true)
         }
-        let actionTwo = MDCActionSheetAction(title: "Tell a Friend", image: UIImage(named: "greyTellafriend")) {_ in
-            self.shareClicked()
-        }
-        let actionThree = MDCActionSheetAction(title: "About", image: UIImage(named: "greyAbout")) {_ in
+        let actionTwo = MDCActionSheetAction(title: "QR Code", image: UIImage(systemName: "qrcode"), handler: { [weak self] _ in
+            print("QR Code Tapped")
+            let vc = qrCodeGenerator()
+            vc.profilePicture.image = self?.profilePicture.image
+            vc.usernameLabel.text = self?.usernameLabel.text
+            let nav = UINavigationController(rootViewController: vc)
+            self?.present(nav, animated: true, completion: nil)
+        })
+        let actionThree = MDCActionSheetAction(title: "About", image: UIImage(systemName: "info.circle.fill")) {_ in
             self.navigationController?.setNavigationBarHidden(false, animated: false)
             self.navigationController?.pushViewController(AboutViewController(), animated: true)
         }
-        let actionFour = MDCActionSheetAction(title: "Moderator", image: UIImage(systemName: "star.square.fill")) { [weak self] _ in
+        let actionFour = MDCActionSheetAction(title: "Tell a Friend", image: UIImage(systemName: "heart.circle.fill")) {_ in
+            self.shareClicked()
+        }
+        let actionFive = MDCActionSheetAction(title: "Moderator", image: UIImage(systemName: "star.square.fill")) { [weak self] _ in
             let vc = moderatorControlViewController()
             self?.navigationController?.push(vc)
         }
         actionSheet.addAction(actionOne)
         actionSheet.addAction(actionTwo)
         actionSheet.addAction(actionThree)
+        actionSheet.addAction(actionFour)
         let person = Auth.auth().currentUser
         let moderatorRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: person?.email ?? "email"))
         
@@ -195,7 +248,7 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
             let moderatorStatus = snapshot.value as? String
             
             if moderatorStatus == "true" {
-                actionSheet.addAction(actionFour)
+                actionSheet.addAction(actionFive)
             }
         })
 
@@ -210,10 +263,9 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
         self.navigationController?.view.backgroundColor = .clear
 
         view.backgroundColor = .systemGroupedBackground
-        customHeaderView.addSubview(editProfileButton)
-        traitCollection.performAsCurrent {
-            editProfileButton.layer.borderColor = UIColor.label.cgColor
-        }
+//        traitCollection.performAsCurrent {
+//            editProfileButton.layer.borderColor = UIColor.label.cgColor
+//        }
         
         // MARK: - Completed Favrs Collection View
         let layout = UICollectionViewFlowLayout()
@@ -231,7 +283,7 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
             return
         }
         completedFavrsCollectionView.registerCell(CompletedFavrsCollectionViewCell.self, forCellWithReuseIdentifier: CompletedFavrsCollectionViewCell.identifier)
-        completedFavrsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 10)
+        completedFavrsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 50, right: 10)
         completedFavrsCollectionView.contentInsetAdjustmentBehavior = .never
         
         completedFavrsCollectionView.delegate = self
@@ -241,9 +293,27 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
         completedFavrsCollectionView.semanticContentAttribute = .forceRightToLeft
         completedFavrsCollectionView.alpha = 0
         completedFavrsCollectionView.frame = CGRect(x: 0,
-                                                    y: (view.height*0.4)+80,
-                                              width: view.width,
-                                              height: (view.height*0.4))
+                                                    y: 0,
+                                              width: 0,
+                                              height: 0)
+        
+        // Notification Center Observers
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("logOut"), object: nil, queue: nil) { (_) in
+            SwiftEntryKit.dismiss()
+            
+            // Sign out
+            do { try Auth.auth().signOut() }
+            catch { print("already logged out") }
+            
+            // Go back to Start View
+            let vc = startPageViewController()
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            self.present (nav, animated: true) {
+                self.tabBarController?.selectedIndex = 0
+                self.navigationController?.popToRootViewController(animated: false)
+            }
+        }
         
         // MARK: - Navigation Bar
         
@@ -284,7 +354,7 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
             self?.streaksLabel.text = newStreaks + " 🔥"
         })
 
-        customHeaderView.addSubview(streaksLabel)
+        CustomNavigationBar.addSubview(streaksLabel)
 
         ref.child("Status").observe(.value, with: { [weak self]
             snapshot in
@@ -292,6 +362,40 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
             self?.statusLabel.text = status
         })
         customHeaderView.addSubview(statusLabel)
+        
+        ref.child("totalDeeds").observe(.value, with: { [weak self]
+            snapshot in
+            
+            let totalDeeds = String(describing: snapshot.value ?? 0)
+            if totalDeeds == "1" {
+                self?.favrsButton.setTitle("\(totalDeeds) Favr", for: .normal)
+            }
+            else {
+                self?.favrsButton.setTitle("\(totalDeeds) Favrs", for: .normal)
+            }
+        })
+        
+        ref.child("points") .observe(.value, with: { [weak self]
+            snapshot in
+            
+            let points = String(describing: snapshot.value ?? 0)
+            if points == "1" {
+                self?.pointsButton.setTitle("\(points) Point", for: .normal)
+            }
+            else {
+                self?.pointsButton.setTitle("\(points) Points", for: .normal)
+            }
+            self?.favrsButton.fadeIn()
+            self?.pointsButton.fadeIn()
+            self?.followersButton.fadeIn()
+            self?.followingButton.fadeIn()
+            self?.profilePicture.fadeIn()
+            self?.editProfileButton.fadeIn()
+            self?.usernameLabel.fadeIn()
+            self?.statusLabel.fadeIn()
+
+
+        })
 
         StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in
             switch result {
@@ -303,9 +407,11 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
         })
         
         customHeaderView.addBottomBorder()
-        customHeaderView.addSubview(qrButton)
-        customHeaderView.addSubview(detailButton)
-                
+        customHeaderView.addSubview(editProfileButton)
+        customHeaderView.addSubview(favrsButton)
+        customHeaderView.addSubview(pointsButton)
+        customHeaderView.addSubview(followingButton)
+        customHeaderView.addSubview(followersButton)
         view.addSubview(customHeaderView)
         
         // MARK: - LastView
@@ -313,7 +419,7 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
         lastView.addSubview(noCompletedFavrsLabel)
         
         // MARK: - Collection View
-        view.addSubview(completedFavrsCollectionView)
+        lastView.addSubview(completedFavrsCollectionView)
         startListeningForCompletedFavrs()
         completedFavrsCollectionView.reloadData()
     }
@@ -393,6 +499,7 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         //        let size = view.width / 6
+        let labelWidth = (view.width)/4
         if UIDevice.current.hasNotch {
             CustomNavigationBar.frame = CGRect(x: 0,
                                                y: 44,
@@ -406,22 +513,33 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
                                                height: 50)
         }
         
-        titleLabel.frame = CGRect(x: 0,
+        titleLabel.frame = CGRect(x: 55,
                                   y: 20,
-                                  width: CustomNavigationBar.width,
+                                  width: CustomNavigationBar.width-110,
                                   height: 20)
-        settingsButton.frame = CGRect(x: CustomNavigationBar.width-60,
+        settingsButton.frame = CGRect(x: CustomNavigationBar.width-50,
                                       y: 5,
-                                      width: 50,
-                                      height: 50)
+                                      width: 40,
+                                      height: 40)
+        streaksLabel.frame = CGRect(x: settingsButton.left-50,
+                                    y: 5,
+                                    width: 40,
+                                    height: 40)
+        streaksLabel.layer.cornerRadius = 12
+        streaksLabel.center.y = settingsButton.center.y
         customHeaderView.frame = CGRect(x: 0,
                                         y: CustomNavigationBar.bottom,
                                         width: view.width,
-                                        height: view.height*0.4)
+                                        height: view.height*0.5-(CustomNavigationBar.bottom))
         profilePicture.frame = CGRect(x: (view.width/2)-50,
                                       y: 20,
                                       width: 100,
                                       height: 100)
+        editProfileButton.frame = CGRect(x: profilePicture.center.x + 25,
+                                         y: profilePicture.center.y + 25,
+                                         width: 30,
+                                         height: 30)
+        editProfileButton.layer.cornerRadius = editProfileButton.frame.size.width / 2
         usernameLabel.frame = CGRect(x: 0,
                                      y: profilePicture.bottom+10,
                                      width: view.width,
@@ -430,54 +548,51 @@ final class ProfileViewController: UIViewController, UICollectionViewDelegate, U
                                    y: usernameLabel.bottom+5,
                                    width: view.width,
                                    height: 30)
-        qrButton.frame = CGRect(x: (view.width/2)-10,
-                                y: statusLabel.bottom+5,
-                                width: 30,
-                                height: 30)
-        qrButton.center.x = view.center.x
-        qrButton.layer.cornerRadius = qrButton.frame.size.width / 2
-        detailButton.frame = CGRect(x: qrButton.left-50,
-                                    y: statusLabel.bottom+5,
-                                    width: 30,
-                                    height: 30)
-        detailButton.layer.cornerRadius = detailButton.frame.size.width / 2
-        streaksLabel.frame = CGRect(x: qrButton.right+20,
-                                    y: statusLabel.bottom+5,
-                                    width: 50,
-                                    height: 30)
-        streaksLabel.layer.cornerRadius = 12
-        editProfileButton.frame = CGRect(x: (view.width/2)-60,
-                                         y: streaksLabel.bottom+15,
-                                         width: 120,
-                                         height: 30)
-        lastView.frame = CGRect(x: 0,
-                                y: customHeaderView.bottom,
-                                width: view.width,
-                                height: view.height-customHeaderView.bottom)
+        favrsButton.frame = CGRect(x: 0,
+                                  y: statusLabel.bottom + 15,
+                                  width: labelWidth,
+                                  height: 30)
+        pointsButton.frame = CGRect(x: favrsButton.right,
+                                   y: 0,
+                                   width: labelWidth,
+                                   height: 30)
+        pointsButton.center.y = favrsButton.center.y
+        followersButton.frame = CGRect(x: pointsButton.right,
+                                      y: 0,
+                                      width: labelWidth,
+                                      height: 30)
+        followersButton.center.y = favrsButton.center.y
+        followingButton.frame = CGRect(x: followersButton.right,
+                                      y: 0,
+                                      width: labelWidth,
+                                      height: 30)
+        followingButton.center.y = favrsButton.center.y
+        
+        if UIDevice.current.hasNotch {
+            lastView.frame = CGRect(x: 0,
+                                    y: customHeaderView.bottom,
+                                    width: view.width,
+                                    height: (view.height*0.5))
+        }
+        else {
+            lastView.frame = CGRect(x: 0,
+                                    y: customHeaderView.bottom,
+                                    width: view.width,
+                                    height: (view.height*0.5))
+        }
         noCompletedFavrsLabel.center = lastView.center
+        completedFavrsCollectionView?.frame = CGRect(x: 0,
+                                                    y: 0,
+                                                    width: lastView.width,
+                                                    height: (lastView.height))
     }
     
-}
-
-
-extension String {
-    func image() -> UIImage? {
-        let size = CGSize(width: 40, height: 40)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        UIColor.white.set()
-        let rect = CGRect(origin: .zero, size: size)
-        UIRectFill(CGRect(origin: .zero, size: size))
-        (self as AnyObject).draw(in: rect, withAttributes: [.font: UIFont.systemFont(ofSize: 40)])
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
-    }
 }
 
 extension ProfileViewController: UIScrollViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-
+        
         let layout = self.completedFavrsCollectionView?.collectionViewLayout as! UICollectionViewFlowLayout
         let cellWidthWithSpace = layout.itemSize.width + layout.minimumLineSpacing
 
@@ -491,57 +606,3 @@ extension ProfileViewController: UIScrollViewDelegate {
     }
 }
 
-extension UIView {
-    
-    // Alexander Volkov - https://stackoverflow.com/users/2022586/alexander-volkov
-
-    /// Adds bottom border to the view with given side margins
-    ///
-    /// - Parameters:
-    ///   - color: the border color
-    ///   - margins: the left and right margin
-    ///   - borderLineSize: the size of the border
-    func addBottomBorder(color: UIColor = UIColor.quaternaryLabel, margins: CGFloat = 0, borderLineSize: CGFloat = 1) {
-        let border = UIView()
-        border.backgroundColor = color
-        border.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(border)
-        border.addConstraint(NSLayoutConstraint(item: border,
-                                                attribute: .height,
-                                                relatedBy: .equal,
-                                                toItem: nil,
-                                                attribute: .height,
-                                                multiplier: 1, constant: borderLineSize))
-        self.addConstraint(NSLayoutConstraint(item: border,
-                                              attribute: .bottom,
-                                              relatedBy: .equal,
-                                              toItem: self,
-                                              attribute: .bottom,
-                                              multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: border,
-                                              attribute: .leading,
-                                              relatedBy: .equal,
-                                              toItem: self,
-                                              attribute: .leading,
-                                              multiplier: 1, constant: margins))
-        self.addConstraint(NSLayoutConstraint(item: border,
-                                              attribute: .trailing,
-                                              relatedBy: .equal,
-                                              toItem: self,
-                                              attribute: .trailing,
-                                              multiplier: 1, constant: margins))
-    }
-}
-
-extension UIDevice {
-    var hasNotch: Bool {
-        let keyWindow = UIApplication.shared.connectedScenes
-                .filter({$0.activationState == .foregroundActive})
-                .map({$0 as? UIWindowScene})
-                .compactMap({$0})
-                .first?.windows
-                .filter({$0.isKeyWindow}).first
-        let bottom = keyWindow?.safeAreaInsets.bottom ?? 0
-        return bottom > 0
-    }
-}

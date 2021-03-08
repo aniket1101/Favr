@@ -115,10 +115,8 @@ class DeedCompletedViewController: CustomTransitionViewController {
         completedRef.observe(.value, with: { [weak self]
             snapshot in
             let completed = String(describing: snapshot.value ?? 0)
-            print("old completed:", self?.completed ?? "Error, old completed")
             self?.completed = Int(completed)!
             self?.completed += 1
-            print("new completed:", self?.completed ?? "Error, completed")
         
         // MARK: - Update Values
             if self?.favrCompleted == false {
@@ -128,7 +126,6 @@ class DeedCompletedViewController: CustomTransitionViewController {
             
             let secondChildUpdates = ["\(deedKey)": self?.completed,
             ]
-            print("after upload:", completed)
             deedCompletedRef.updateChildValues(secondChildUpdates as [AnyHashable : Any])
             self?.favrCompleted = true
         }
@@ -140,14 +137,13 @@ class DeedCompletedViewController: CustomTransitionViewController {
         dateRef.observe(.value, with: { [weak self]
             snapshot in
             let dateValue = snapshot.value as! String
-            print("Date Value:", dateValue)
             let formatter = DateFormatter()
             formatter.dateStyle = .medium
             formatter.timeStyle = .medium
             formatter.locale = .autoupdatingCurrent
             formatter.dateFormat = "dd/MM/yyyy"
-            let finalDateValue = formatter.date(from: dateValue)
-            self?.lastDate = finalDateValue!
+            let lastDate = formatter.date(from: dateValue)
+            self?.lastDate = lastDate!
             if self?.dateCompleted == false {
                 let secondDateRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
                 guard let dateKey = secondDateRef.child("lastDeed").key else { return }
@@ -163,8 +159,8 @@ class DeedCompletedViewController: CustomTransitionViewController {
                 let streaksRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("streaks")
                 streaksRef.observe(.value, with: { [weak self]
                     snapshot in
-                    let streaksValue = String(describing: snapshot.value ?? 0)
-                    self?.streak = Int(streaksValue)!
+                    let streak = String(describing: snapshot.value ?? 0)
+                    self?.streak = Int(streak)!
                     self?.streak += 1
                     if self?.streakCompleted == false {
                         let streakKeyRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
@@ -196,13 +192,12 @@ class DeedCompletedViewController: CustomTransitionViewController {
             let totalDeedsRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email")).child("totalDeeds")
             totalDeedsRef.observe(.value, with: { [weak self]
                 snapshot in
-                let totalDeedsValue = String(describing: snapshot.value ?? 0)
-                self?.totalDeeds = Int(totalDeedsValue)!
+                let totalDeeds = String(describing: snapshot.value ?? 0)
+                self?.totalDeeds = Int(totalDeeds)!
                 self?.totalDeeds += 1
                 if self?.totalDeedsCompleted == false {
                     let totalDeedsKeyRef = Database.database().reference().child("Users").child(DatabaseManager.safeEmail(emailAddress: Auth.auth().currentUser?.email ?? "email"))
                     guard let totalDeedsKey = totalDeedsKeyRef.child("totalDeeds").key else { return }
-                    
                     let fifthChildUpdates = ["\(totalDeedsKey)": self?.totalDeeds,
                     ]
                     totalDeedsKeyRef.updateChildValues(fifthChildUpdates as [AnyHashable : Any])

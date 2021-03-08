@@ -81,16 +81,25 @@ Some of our Username Guidelines are:
     @objc private func changeButtonTapped() {
         guard let usernameValue = newNameField.text?.count else { return }
         
-        if 3 <= usernameValue && usernameValue <= 20 {
-            let safeEmail = DatabaseManager.safeEmail(emailAddress: (Auth.auth().currentUser?.email)!)
-            let ref = Database.database().reference().child("Users").child(safeEmail)
-            guard let key = ref.child("name").key else { return }
-            
-            let childUpdates = ["\(key)": newNameField.text,
-            ]
-            ref.updateChildValues(childUpdates as [AnyHashable : Any])
-            self.newNameField.text = ""
-            navigationController?.popViewController(animated: true)
+        if (3 <= usernameValue) && (usernameValue <= 20) {
+            let allowedCharacters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz._"
+            let allowedCharactersSet = CharacterSet(charactersIn: allowedCharacters)
+            let typedCharacterSet = CharacterSet(charactersIn: newNameField.text!)
+            if allowedCharactersSet.isSuperset(of: typedCharacterSet) == false {
+                newNameField.shake()
+                newNameField.tintColor = .systemRed
+            }
+            else {
+                let safeEmail = DatabaseManager.safeEmail(emailAddress: (Auth.auth().currentUser?.email)!)
+                let ref = Database.database().reference().child("Users").child(safeEmail)
+                guard let key = ref.child("name").key else { return }
+
+                let childUpdates = ["\(key)": newNameField.text?.lowercased(),
+                ]
+                ref.updateChildValues(childUpdates as [AnyHashable : Any])
+                self.newNameField.text = ""
+                navigationController?.popViewController(animated: true)
+            }
         }
         else {
             navigationController?.popViewController(animated: true)
@@ -193,15 +202,4 @@ extension ChangeDisplayNameViewController: UITextFieldDelegate {
     
 }
 
-extension UITextField {
-  func setOtherLeftView(image: UIImage) {
-    let iconView = UIImageView(frame: CGRect(x: 10, y: 12.5, width: 20, height: 20)) // set your Own size
-    iconView.image = image
-    iconView.contentMode = .scaleAspectFill
-    let iconContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
-    iconContainerView.addSubview(iconView)
-    leftView = iconContainerView
-    leftViewMode = .always
-    self.tintColor = .lightGray
-  }
-}
+

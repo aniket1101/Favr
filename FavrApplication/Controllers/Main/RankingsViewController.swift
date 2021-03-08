@@ -10,32 +10,59 @@ import UIKit
 
 class RankingsViewController: UIViewController {
     
-    @IBOutlet var tableView: UITableView!
+    //    private let tableView: UITableView = {
+    //        let table = UITableView()
+    //        table.isHidden = true
+    //        table.backgroundColor = .systemGroupedBackground
+    //        table.automaticallyAdjustsScrollIndicatorInsets = false
+    //        table.clipsToBounds = true
+    //        table.register(ConversationTableViewCell.self,
+    //                       forCellReuseIdentifier: ConversationTableViewCell.identifier)
+    //        return table
+    //    }()
     
-//    let items = ["Global", "Local"]
-//
-//    lazy var segmentedControl: UISegmentedControl = {
-//        let control = UISegmentedControl(items: items)
-//        control.selectedSegmentIndex = 1
-//        control.layer.cornerRadius = 9
-//        control.layer.masksToBounds = true
-//        control.layer.borderColor = UIColor.secondarySystemBackground.cgColor
-//        control.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
-//        return control
-//    }()
+    private let rankingsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Rankings"
+        label.font = UIFont(name: "Montserrat-Bold", size: 22)
+        label.textAlignment = .center
+        label.textColor = .label
+        label.numberOfLines = -1
+        return label
+    }()
+    
+    private let dismissButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        button.tintColor = .lightGray
+        button.addTarget(self, action: #selector(dismissSelf), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc private func dismissSelf() {
+        dismiss(animated: true, completion: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupViews()
+        view.backgroundColor = .secondarySystemGroupedBackground
+
+        
+        view.addSubview(dismissButton)
+        view.addSubview(rankingsLabel)
     }
     
-//    fileprivate func setupViews() {
-//        view.backgroundColor = .systemBackground
-//
-//        view.addSubview(segmentedControl)
-//
-//        segmentedControl.edgesToSuperview(excluding: .bottom, insets: UIEdgeInsets(top: 12, left: 12, bottom: 0, right: 12), usingSafeArea: true)
-//        segmentedControl.height(25)
-//    }
-
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        dismissButton.frame = CGRect(x: view.width-60,
+                                     y: 40,
+                                     width: 30,
+                                     height: 30)
+        rankingsLabel.frame = CGRect(x: 0,
+                                    y: dismissButton.bottom+5,
+                                    width: view.width,
+                                    height: 30)
+        
+    }
+    
 }

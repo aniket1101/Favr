@@ -73,17 +73,17 @@ class JournalsViewController: UIViewController, UICollectionViewDelegate, UIColl
         return label
     }()
     
-    private let animationView: AnimationView = {
-        let view = AnimationView()
-        view.isHidden = true
-        return view
-    }()
-    
-    func startAnimation() {
-        animationView.animation = Animation.named("44656-error")
-        animationView.play()
-        animationView.loopMode = .loop
-    }
+//    private let animationView: AnimationView = {
+//        let view = AnimationView()
+//        view.isHidden = true
+//        return view
+//    }()
+//
+//    func startAnimation() {
+//        animationView.animation = Animation.named("44656-error")
+//        animationView.play()
+//        animationView.loopMode = .loop
+//    }
     
     private let noJournalsLabel: UILabel = {
         let label = UILabel()
@@ -94,8 +94,6 @@ class JournalsViewController: UIViewController, UICollectionViewDelegate, UIColl
         label.isHidden = true
         return label
     }()
-    
-    
     
     @objc private func currentJournalTapped() {
         let vc = detailedCurrentJournalViewController()
@@ -143,7 +141,7 @@ class JournalsViewController: UIViewController, UICollectionViewDelegate, UIColl
         pastJournalsView.addSubview(pastJournalsLabel)
         view.addSubview(journalsCollectionView)
         view.addSubview(noJournalsLabel)
-        view.addSubview(animationView)
+//        view.addSubview(animationView)
         startListeningForJournals()
         journalsCollectionView.reloadData()
     }
@@ -185,15 +183,18 @@ class JournalsViewController: UIViewController, UICollectionViewDelegate, UIColl
                     if path.status == .satisfied {
                         print("Connected")
                         self?.noJournalsLabel.isHidden = false
-                        self?.animationView.isHidden = true
+//                        self?.animationView.isHidden = true
                         let alert = UIAlertController(title: "Oops", message: error.localizedDescription, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
                         self?.present(alert, animated: true)
                     }
                     else {
                         // Network error image/animation
-                        self?.startAnimation()
-                        self?.animationView.isHidden = false
+                        let alert = UIAlertController(title: "Oops", message: error.localizedDescription, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                        self?.present(alert, animated: true)
+//                        self?.startAnimation()
+//                        self?.animationView.isHidden = false
                     }
                 }
                 
@@ -233,10 +234,10 @@ class JournalsViewController: UIViewController, UICollectionViewDelegate, UIColl
                                        y: view.height/2,
                                        width: view.width-20,
                                        height: 100)
-        animationView.frame = CGRect(x: (view.width/2)-200,
-                                     y: (view.height)*(3/4),
-                                     width: 100,
-                                     height: 100)
+//        animationView.frame = CGRect(x: (view.width/2)-200,
+//                                     y: (view.height)*(3/4),
+//                                     width: 100,
+//                                     height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
